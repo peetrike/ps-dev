@@ -11,7 +11,7 @@ $ErrorActionPreference = 'Stop'
 try {
     Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction Stop
 } catch {
-    Install-PackageProvider -Name NuGet -Scope AllUsers -Force
+    Install-PackageProvider -Name NuGet -Force
 }
 
 if ((Get-Module -Name PowerShellGet -ListAvailable).Version | Where-Object { $_ -gt '2.2.4' }) {
