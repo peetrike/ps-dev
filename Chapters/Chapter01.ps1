@@ -1,0 +1,42 @@
+﻿<#
+    .SYNOPSIS
+        Chapter 01 samples
+    .DESCRIPTION
+        This file contains sample commands from course PS-Dev for
+        Chapter 01 - Using Development Tools
+    .NOTES
+        Contact: Meelis Nigols
+        e-mail/skype: meelisn@outlook.com
+    .LINK
+        https://github.com/peetrike/ps-dev
+    .LINK
+        https://diigo.com/profile/peetrike/?query=%23PS-Dev+%23M1
+    .LINK
+        https://peterwawa.wordpress.com/tag/powershell/
+    .LINK
+        https://learn.microsoft.com/powershell/#community-resources
+#>
+
+#region Safety to prevent the entire script from being run instead of a selection
+throw "You're not supposed to run the entire script"
+#endregion
+
+
+#region Lesson 1 - Understanding Integrated Development Environment
+
+#endregion
+
+
+#region Lesson 2 - Using Visual Studio Code
+
+#endregion
+
+
+#region Lesson 3 - Using Other tools
+
+#endregion
+
+
+#region Lab - Overview of Windows PowerShell
+
+#endregion
