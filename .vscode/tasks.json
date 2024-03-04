@@ -1,4 +1,4 @@
-﻿// A task runner that invokes Pester to run all Pester tests under the
+// A task runner that invokes Pester to run all Pester tests under the
 // current workspace folder.
 // NOTE: This Test task runner requires an updated version of Pester (>=4.0.3)
 // in order for the problemMatcher to find failed test information (message, line, file).
@@ -79,18 +79,6 @@
       }
       ]
     },
-    {
-      "label": "Add script",
-      "type": "shell",
-      "command": "Import-Module PWBuild; Invoke-PSMDTemplate -TemplateName PWScript -OutPath ${input:Folder}",
-      "problemMatcher": []
-    },
-    {
-      "label": "Add function",
-      "type": "shell",
-      "command": "Import-Module PWBuild; Invoke-PSMDTemplate -TemplateName PWFunction -OutPath ${input:Folder}",
-      "problemMatcher": []
-    }
   ],
   "inputs": [
     {
@@ -99,16 +87,9 @@
       "description": "Name of the repository to publish",
       "options": [
         "PSGallery",
-        "LocalRepo",
-        "TeliaInt"
+        "LocalRepo"
       ],
       "default": "LocalRepo"
-    },
-    {
-      "id": "Folder",
-      "type": "promptString",
-      "description": "Folder where to create new file.",
-      "default": "${workspaceFolder}\\src"
     }
   ]
 }
