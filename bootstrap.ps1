@@ -27,4 +27,4 @@ if (-not (Get-Module -Name PSDepend -ListAvailable)) {
     Install-Module -Name PSDepend -Repository PSGallery -Force
 }
 Import-Module -Name PSDepend -Verbose:$false
-Invoke-PSDepend -Path './requirements.psd1' -Install -Import -Force -WarningAction SilentlyContinue
+Invoke-PSDepend -Path $PSScriptRoot -Install -Import -Force -WarningAction SilentlyContinue
