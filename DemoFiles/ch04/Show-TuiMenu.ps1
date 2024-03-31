@@ -41,7 +41,7 @@ $MenuItem3 = [MenuItem]::new(
     { Start-Process 'https://gui-cs.github.io/Terminal.Gui/api/Terminal.Gui' }
 )
 $MenuBarItem2 = [MenuBarItem] @{
-    Title = '_Help'
+    Title    = '_Help'
     Children = $MenuItem2, $MenuItem3
 }
 
@@ -65,7 +65,7 @@ $MsgButton = [Button] @{
     Text = '_Message'
 }
 $MsgButton.add_Clicked({
-    $answer = 'Yes', 'No', 'Cancel'
+    $answer = 'Go on', 'Stay here', 'Quit'
     $r = [MessageBox]::Query('Look at me!', 'What do you want to do?', $answer)
     $Text.text = 'Your response is: {0}' -f $answer[$r]
 })
