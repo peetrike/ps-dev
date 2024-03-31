@@ -76,7 +76,8 @@ $BodyFragment = @(
 
 $FileName = $MyInvocation.MyCommand.Name -replace '.ps1', '.html'
 $CssName = $FileName -replace '.html', '.css'
-ConvertTo-HTML -Body $BodyFragment -Title 'Computer Information Report' -CssUri $CssName |
+$cssPath = Join-Path -Path $PSScriptRoot -ChildPath $CssName
+ConvertTo-HTML -Body $BodyFragment -Title 'Computer Information Report' -CssUri $cssPath |
     Out-File -FilePath $FileName
 #endregion
 
