@@ -3,7 +3,7 @@
 # This setting is configured in the workspace's `.vscode\settings.json`.
 #
 # For more information on PSScriptAnalyzer settings see:
-# https://docs.microsoft.com/powershell/utility-modules/psscriptanalyzer/overview#settings-support-in-scriptanalyzer
+# https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/using-scriptanalyzer#settings-support-in-scriptanalyzer
 #
 # You can see the predefined PSScriptAnalyzer settings here:
 # https://github.com/PowerShell/PSScriptAnalyzer/tree/master/Engine/Settings
@@ -47,6 +47,11 @@
             CheckHashtable = $true
         }
 
+        PSAvoidExclaimOperator                    = @{
+            # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/AvoidExclaimOperator
+            Enable = $true
+        }
+
         PSAvoidLongLines                          = @{
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/AvoidLongLines
             Enable            = $true
@@ -71,11 +76,11 @@
             Enable = $true
         }
 
-        <# PSAvoidUsingCmdletAliases                 = @{
+        PSAvoidUsingCmdletAliases                 = @{
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/AvoidUsingCmdletAliases
             # Do not flag 'cd' alias.
             AllowList = @('cd')
-        } #>
+        }
 
         PSAvoidUsingDoubleQuotesForConstantString = @{
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/AvoidUsingDoubleQuotesForConstantString
@@ -133,12 +138,12 @@
         }
 
         PSUseCompatibleSyntax                     = @{
-            Enable         = $true
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/UseCompatibleSyntax
+            Enable         = $true
             TargetVersions = @(
                 '6.0'
                 '5.1'
-                '3.0'
+                #'3.0'
             )
         }
 
@@ -162,10 +167,10 @@
             ) #>
         }
 
-        PSUseConsistentIndentation                = @{
+        <# PSUseConsistentIndentation                = @{
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/UseConsistentIndentation
             Enable = $true
-        }
+        } #>
 
         PSUseConsistentWhitespace                 = @{
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/UseConsistentWhitespace
@@ -179,5 +184,11 @@
             # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/usecorrectcasing
             Enable = $true
         }
+
+        <# PSUseSingularNouns                        = @{
+            # https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/UseSingularNouns
+            #Enable        = $true
+            NounAllowList = 'Data', 'Windows'
+        } #>
     }
 }
