@@ -33,7 +33,7 @@
             $propLength = 0
             foreach ($prop in $obj.PSObject.Properties) {
                 if (
-                    $prop.Value -ne $null -and
+                    $null -ne $prop.Value -and
                     $prop.Value -ne [string]::Empty -and
                     $prop.Name.Length -gt $propLength
                 ) {
@@ -67,7 +67,7 @@
                         $prop.Value -is [Exception] -or
                         $prop.Value -is [System.Management.Automation.ErrorRecord] -or
                         $expandTypes -contains $prop.TypeNameOfValue -or
-                        ($prop.TypeNames -ne $null -and $expandTypes -contains $prop.TypeNames[0])
+                        ($null -ne $prop.TypeNames -and $expandTypes -contains $prop.TypeNames[0])
                     ) {
                         if ($depth -ge $maxDepth) {
                             $null = $output.Append($ellipsis)
@@ -84,10 +84,10 @@
                             $null = $output.Append($ellipsis)
                         } else {
                             $targetSite = [PSCustomObject]@{
-                                Name = $prop.Value.Name
+                                Name          = $prop.Value.Name
                                 DeclaringType = $prop.Value.DeclaringType
-                                MemberType = $prop.Value.MemberType
-                                Module = $prop.Value.Module
+                                MemberType    = $prop.Value.MemberType
+                                Module        = $prop.Value.Module
                             }
 
                             $null = $output.Append($newline)
@@ -110,16 +110,20 @@
                             }
 
                             if ($key -eq 'Authorization') {
-                                $null = $output.Append("${prefix}    ${accentColor}${key} : ${resetColor}${ellipsis}${newline}")
+                                $null = $output.Append(
+                                    "${prefix}    ${accentColor}${key} : ${resetColor}${ellipsis}${newline}"
+                                )
                             } else {
-                                $null = $output.Append("${prefix}    ${accentColor}${key} : ${resetColor}$($prop.Value[$key])${newline}")
+                                $null = $output.Append(
+                                  "${prefix}    ${accentColor}${key} : ${resetColor}$($prop.Value[$key])${newline}"
+                                )
                             }
 
                             $isFirstElement = $false
                         }
                     } elseif (
                         -not ($prop.Value -is [System.String]) -and
-                        $prop.Value.GetType().GetInterface('IEnumerable') -ne $null -and
+                        $null -ne $prop.Value.GetType().GetInterface('IEnumerable') -and
                         $prop.Name -ne 'Data'
                     ) {
                         # if the object implements IEnumerable and not a string, we try to show each object
@@ -158,7 +162,7 @@
                             [Management.Automation.LanguagePrimitives]::TryConvertTo(
                                 $prop.Value, [string], [ref]$value
                             ) -and
-                            $value -ne $null
+                            $null -ne $value
                         ) {
                             if ($prop.Name -eq 'PositionMessage') {
                                 $value = $value.Insert($value.IndexOf('~'), $errorColor)
@@ -207,7 +211,7 @@
                 Import-Module PSStyle -ErrorAction Ignore
             }
             $resetColor = $PSStyle.Reset
-            $errorColor = $psstyle.Formatting.Error
+            $errorColor = $PSStyle.Formatting.Error
             $accentColor = $PSStyle.Formatting.FormatAccent
         }
         $Count = 0
