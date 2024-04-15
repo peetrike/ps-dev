@@ -1,5 +1,5 @@
-﻿# Release folder for build process
-Release/*
+﻿# local folder for local resources
+Local/*
 
 # Excel files
 *.csv
