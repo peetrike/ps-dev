@@ -9,5 +9,5 @@
         Time    = [datetime]::Now.ToString('o')
         Message = $Message
         Tag     = $Tag
-    } | Export-Csv -Path $LogFile -Encoding UTF8 -Append
+    } | Export-Csv -Path $LogFile -Append -NotypeInformation -Encoding UTF8
 }
