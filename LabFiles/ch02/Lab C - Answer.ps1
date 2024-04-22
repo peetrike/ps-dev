@@ -12,7 +12,7 @@
             [Parameter(
                 ValueFromPipeline
             )]
-            [Alias('OU')]
+            [Alias('OU', 'SearchBase')]
             [Microsoft.ActiveDirectory.Management.ADOrganizationalUnit]
         $OrganizationalUnit
     )
