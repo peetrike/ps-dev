@@ -8,5 +8,3 @@ Get-UserLogonInfo -Filter 'samAccountName -like "admin*"'
 # Now try pipeline binding by value
 Get-ADOrganizationalUnit -Filter { Name -like 'IT' } |
     Get-UserLogonInfo -Filter 'Name -like "a*"'
-
-Get-UserLogonInfo -Identity $env:USERNAME
