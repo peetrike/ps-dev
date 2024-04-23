@@ -1,5 +1,6 @@
 ﻿#Requires -Version 3
 
+# Load the function from previous step
 . .\Step-04.ps1
 
 # Select-Object will preserve the property order we specify
