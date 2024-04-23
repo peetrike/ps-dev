@@ -1,4 +1,4 @@
-﻿# Load the function from previos step
+﻿# Load the function from previous step
 . .\step-02.ps1
 
 # This verifies that the original syntax works
