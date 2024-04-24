@@ -1,6 +1,5 @@
 ﻿# Add support for ShouldProcess
 
-
 function Set-ComputerState {
     <#
         .LINK
