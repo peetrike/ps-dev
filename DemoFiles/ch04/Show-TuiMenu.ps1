@@ -51,6 +51,7 @@ $MenuBar = [MenuBar] @{
 }
 $window.Add($MenuBar)
 
+# Add text box and button to the window
 $Text = [TextField] @{
     X     = [Pos]::Center()
     Y     = [Pos]::Center()
@@ -70,7 +71,8 @@ $MsgButton.add_Clicked({
     $Text.text = 'Your response is: {0}' -f $answer[$r]
 })
 $window.Add($MsgButton)
-
 [Application]::Top.Add($window)
+
+# Display the window
 [Application]::Run()
 [Application]::Shutdown()
