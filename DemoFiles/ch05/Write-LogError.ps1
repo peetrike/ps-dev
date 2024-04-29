@@ -7,7 +7,7 @@
             )]
             [Management.Automation.ErrorRecord]
         $ErrorRecord,
-        [string]
+            [string]
         $LogPath = (Join-Path -Path $PWD -ChildPath 'ErrorLog.csv')
     )
 
