@@ -36,13 +36,21 @@ function Get-AdatumNetAdapterInfo {
         $AdapterName = $adapter.Name
         $InterfaceIndex = $adapter.InterfaceIndex
 
-        Get-NetIPAddress -InterfaceIndex $InterfaceIndex -ErrorAction SilentlyContinue | ForEach-Object {
-            [PSCustomObject] @{
-                ComputerName   = $Env:COMPUTERNAME
-                AdapterName    = $AdapterName
-                InterfaceIndex = $InterfaceIndex
-                IPAddress      = $_.IPAddress
-                AddressFamily  = $_.AddressFamily
+        try {
+            Get-NetIPAddress -InterfaceIndex $InterfaceIndex -ErrorAction Stop | ForEach-Object {
+                [PSCustomObject] @{
+                    ComputerName   = $Env:COMPUTERNAME
+                    AdapterName    = $AdapterName
+                    InterfaceIndex = $InterfaceIndex
+                    IPAddress      = $_.IPAddress
+                    AddressFamily  = $_.AddressFamily
+                }
+            }
+        } catch {
+            if ($_.CategoryInfo.Category -eq 'ObjectNotFound') {
+                Write-Warning "Adapter $AdapterName does not have an IP address on $Env:COMPUTERNAME"
+            } else {
+                throw
             }
         }
     }
