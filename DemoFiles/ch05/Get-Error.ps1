@@ -1,11 +1,43 @@
 ﻿function Get-Error {
+    <#
+    .SYNOPSIS
+        Gets and displays the most recent error messages from the current session.
+    .DESCRIPTION
+        The `Get-Error` function gets a ErrorRecord object that represents the current error details
+        from the last error that occurred in the session.
+        You can use `Get-Error` to display a specified number of errors that have occurred in the current session
+        using the Newest parameter.
+        The `Get-Error` cmdlet also receives error objects from a collection, such as `$Error`,
+        to display multiple errors from the current session.
+    .INPUTS
+        Supports input from any PSObject, but results vary
+        unless either an ErrorRecord or Exception object are supplied.
+    .EXAMPLE
+        Get-Childitem -path /NoRealDirectory
+        Get-Error
+
+        This example gets the most recent error details.
+    .EXAMPLE
+        Get-Error -Newest 3
+
+        This example gets the specified number of errors.
+    .EXAMPLE
+        Get-Childitem -path /NoRealDirectory -ErrorVariable MyError
+        $MyError | Get-Error
+
+        This example gets most recent error details from provided error collection.
+    .NOTES
+        Taken from PowerShell 7
+    #>
     [CmdletBinding()]
     param (
             [Parameter(
                 ValueFromPipeline
             )]
+            # Specifies error collection to process.
         $InputObject = $Error,
             [int]
+            # Specifies the number of errors to display that have occurred in the current session.
         $Newest = 1
     )
 
@@ -62,13 +94,13 @@
 
                     $newIndent = $indent + 4
 
-                    # only show nested objects that are Exceptions, ErrorRecords, or types defined in $expandTypes and types not in $ignoreTypes
                     if (
                         $prop.Value -is [Exception] -or
                         $prop.Value -is [System.Management.Automation.ErrorRecord] -or
                         $expandTypes -contains $prop.TypeNameOfValue -or
                         ($null -ne $prop.TypeNames -and $expandTypes -contains $prop.TypeNames[0])
                     ) {
+                        # process nested objects that are Exceptions, ErrorRecords, or types defined in $expandTypes
                         if ($depth -ge $maxDepth) {
                             $null = $output.Append($ellipsis)
                         } else {
@@ -199,9 +231,10 @@
 
             $output.ToString()
         }
+
         Set-StrictMode -Off
         $maxDepth = 10
-        $ellipsis = "`u{2026}"
+        $ellipsis = [char] 0x2026
         $resetColor = ''
         $errorColor = ''
         $accentColor = ''
