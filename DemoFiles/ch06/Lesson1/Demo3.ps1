@@ -1,4 +1,4 @@
-﻿# This time use the ISE to set a breakpoint on line 13
+﻿# This time use the VS Code to set a breakpoint on line 12
 # and then run the script. use F11 to step through
 # the script once it reaches the breakpoint.
 
@@ -7,15 +7,13 @@ function Get-ArchitectureInfo {
     param()
 
         # All CPUs should be the same so only get one
-    $proc = Get-CimInstance -ClassName Win32_Processor |
-                Select-Object -first 1
-
+    $proc = Get-CimInstance -ClassName Win32_Processor | Select-Object -First 1
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
 
     [PSCustomObject] @{
         ComputerName     = $env:COMPUTERNAME
-        OSArchitecture   = $os.osarchitecture
-        ProcArchitecture = $proc.addresswidth
+        OSArchitecture   = $os.OSArchitecture
+        ProcArchitecture = $proc.AddressWidth
     }
 }
 
