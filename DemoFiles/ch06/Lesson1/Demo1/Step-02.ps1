@@ -21,6 +21,6 @@ function Get-ArchitectureInfo {
 
 # expecting to see all computers listed in output
 # since they are 64-bit CPUs and 64-bit operating systems
-Get-ArchitectureInfo -Debug |
+Get-ArchitectureInfo |
     Where-Object { $_.ProcArchitecture -ne $_.OSArchitecture } |
     Select-Object -Property ComputerName
