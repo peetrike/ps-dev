@@ -24,10 +24,42 @@ throw "You're not supposed to run the entire script"
 
 #region Lesson 1 - Understanding Integrated Development Environment
 
+#region What is Integrated Development Environment
+
+#endregion
+
+#region IDE vs Editor
+
+#endregion
+
+#region Using PowerShell ISE
+
+#endregion
+
+#region Why not ISE
+
+#endregion
+
 #endregion
 
 
 #region Lesson 2 - Using Visual Studio Code
+
+#region What is VS Code
+
+#endregion
+
+#region VS Code features
+
+#endregion
+
+#region PowerShell extension in VS Code
+
+#endregion
+
+#region Configuring VS Code for PowerShell
+
+#endregion
 
 #endregion
 
@@ -54,9 +86,31 @@ throw "You're not supposed to run the entire script"
 
 #endregion
 
+#region Static code analysis tools
+
+#endregion
+
+#region Scaffolding tools
+
+#endregion
+
+#region Build Automation tools
+
+#endregion
+
+#region Help generation tools
+
+#endregion
+
+#region Dependency management tools
+
+#endregion
+
 #endregion
 
 
 #region Lab - Overview of Windows PowerShell
+
+# https://github.com/peetrike/ps-dev
 
 #endregion
