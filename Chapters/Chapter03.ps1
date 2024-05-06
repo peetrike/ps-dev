@@ -38,10 +38,6 @@ throw "You're not supposed to run the entire script"
 
 #endregion
 
-#region
-
-#endregion
-
 #region Creating Module Manifest
 
 #endregion
