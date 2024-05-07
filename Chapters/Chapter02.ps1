@@ -77,6 +77,8 @@ get-logicalDisk
 
 #region Lesson 3 - Defining Parameter Attributes and Input Validation
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#psboundparameters
+
 #region Understanding the Parameter Attributes
 
 #endregion
@@ -204,6 +206,7 @@ function arvuti {
     $ComputerName
 }
 
+#Requires -Version 6
 function arvuti {
     [CmdletBinding()]
     [Alias('Computer')]
@@ -259,9 +262,61 @@ function vastus {
 
 #region Understanding Pipeline Parameter Binding
 
+function nimed {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromPipeline)]
+        [string]
+        $Nimi
+    )
+
+    $Nimi
+}
+
 #endregion
 
 #region Comparing Pipeline Execution and Parameter Execution
+
+function nimed {
+    [CmdletBinding()]
+    param (
+            [Parameter(ValueFromPipeline)]
+            [string]
+        $Nimi
+    )
+
+    end {
+        Write-Warning ('lõpetasime, Nimi on: {0}' -f $Nimi)
+    }
+    begin {
+        Write-Warning ('alustame, Nimi on: {0}' -f $Nimi)
+    }
+    process {
+        $Nimi
+    }
+}
+
+function nimed {
+    [CmdletBinding()]
+    param (
+            [Parameter(ValueFromPipeline)]
+            [string[]]
+        $Nimi
+    )
+
+    end {
+        Write-Warning ('lõpetasime, Nimi on: {0}' -f $Nimi -join ',')
+    }
+    begin {
+        Write-Warning ('alustame, Nimi on: {0}' -f $Nimi)
+    }
+    process {
+        foreach ($n in $nimi) {
+            $n
+        }
+    }
+}
+
 
 #endregion
 
