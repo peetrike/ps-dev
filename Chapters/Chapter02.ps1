@@ -18,17 +18,35 @@ throw "You're not supposed to run the entire script"
 
 #region What are functions?
 
+Get-Help about_Functions -ShowWindow
+
+Get-Command pause
+(Get-Command pause).Definition
+
+function greeting {
+    "Hello $env:USERNAME"
+}
+greeting
+
 #endregion
 
 #region Understanding scripts and functions
+
+Get-Help about_Scopes -ShowWindow
 
 #endregion
 
 #region Using Variable Scopes
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_scopes#example-2-view-a-variable-value-in-different-scopes
+
+code -r ..\DemoFiles\ch02\Lesson1\scope.ps1
+
 #endregion
 
 #region Using Dot Sourcing
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_operators#dot-sourcing-operator-
 
 #endregion
 
@@ -331,6 +349,9 @@ function nimed {
 #region Lesson 5 - Producing Complex Function Output
 
 #region Understanding the Advantages of Object Output
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_objects
+Get-Help about_objects -ShowWindow
 
 #endregion
 
