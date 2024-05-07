@@ -120,6 +120,9 @@ Get-ExperimentalFeature -Name PSModuleAutoLoadSkipOfflineFiles
 Get-Command Install-Module
 Get-Command Install-PSResource
 
+Get-Command Update-Module
+Get-Command Update-PSResource
+
 #endregion
 
 #endregion
