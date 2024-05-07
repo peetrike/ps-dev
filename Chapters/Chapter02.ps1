@@ -47,6 +47,7 @@ code -r ..\DemoFiles\ch02\Lesson1\scope.ps1
 #region Using Dot Sourcing
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_operators#dot-sourcing-operator-
+# https://learn.microsoft.com/powershell/scripting/lang-spec/chapter-03#355-dot-source-notation
 
 #endregion
 
