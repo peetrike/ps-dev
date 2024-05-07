@@ -166,6 +166,9 @@ function arvuti {
 #endregion
 
 #region Understanding Parameter Input Validation
+
+# https://github.com/peetrike/Examples/tree/main/CommandLine
+
 function arvuti {
     [CmdletBinding()]
     [Alias('Computer')]
@@ -280,6 +283,8 @@ function vastus {
 
 #region Understanding Pipeline Parameter Binding
 
+# https://github.com/peetrike/Examples/blob/main/CommandLine/11%20Pipeline%20Input.ps1
+
 function nimed {
     [CmdletBinding()]
     param (
@@ -290,6 +295,8 @@ function nimed {
 
     $Nimi
 }
+
+# https://github.com/peetrike/Examples/blob/main/CommandLine/12%20Pipeline%20Objects.ps1
 
 #endregion
 
@@ -314,6 +321,8 @@ function nimed {
     }
 }
 
+'first', 'second', 'third' | nimed
+
 function nimed {
     [CmdletBinding()]
     param (
@@ -335,6 +344,8 @@ function nimed {
     }
 }
 
+nimed -Nimi 'first', 'second', 'third'
+'first', 'second', 'third' | nimed
 
 #endregion
 
@@ -449,6 +460,8 @@ Get-Help tere -Full
 #endregion
 
 #region Adding Support for –WhatIf and –Confirm
+
+# https://github.com/peetrike/Examples/blob/main/CommandLine/14%20Whatif%20and%20Confirm.ps1
 
 #endregion
 
