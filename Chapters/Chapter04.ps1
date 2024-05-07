@@ -131,6 +131,10 @@ Get-ChildItem -path $ModulePath -Filter *.dll
 
 Find-PSResource BurntToast -Repository PSGallery
 
+# https://learn.microsoft.com/powershell/scripting/samples/creating-a-custom-input-box
+# https://www.foxdeploy.com/series/LearningGUIs
+# https://ironmansoftware.com/powershell-universal-dashboard
+
 #endregion
 
 #endregion
