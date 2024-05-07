@@ -453,15 +453,71 @@ Get-Help tere -Full
 
 #region Understanding ConfirmImpact and Confirmation Parameters
 
+# https://learn.microsoft.com/dotnet/api/system.management.automation.confirmimpact
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#confirmpreference
+
+$ConfirmPreference
+
+New-Item katse.txt -ItemType File
+Remove-Item katse.txt
+
+New-Item katse.txt -ItemType File
+$ConfirmPreference = 'Medium'
+Remove-Item katse.txt
+Remove-Item katse.txt -Confirm:$false
+$ConfirmPreference = 'High'
+
 #endregion
 
 #region Declaring Support for –WhatIf and –Confirm
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_functions_cmdletbindingattribute#confirmimpact
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_functions_cmdletbindingattribute#supportsshouldprocess
+
+function Set-Something {
+    [OutputType([string])]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    param ()
+
+    'Setting stuff'
+}
+
+Set-Something -WhatIf
+
+function Set-Something {
+    [CmdletBinding()]
+    param ()
+
+    'Setting stuff'
+}
+
+function Remove-File {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+            [Parameter(ValueFromPipelineByPropertyName)]
+            [Alias('FullName')]
+            [string]
+        $FileName
+    )
+
+    process {
+        Remove-Item $FileName
+    }
+}
+
+New-Item test.txt -ItemType File
+Get-Item test.txt | Remove-File -Confirm
+
 
 #endregion
 
 #region Adding Support for –WhatIf and –Confirm
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/14%20Whatif%20and%20Confirm.ps1
+
+# https://learn.microsoft.com/dotnet/api/system.management.automation.cmdlet.shouldprocess
+
+# https://github.com/peetrike/scripts/blob/master/Send-PasswordNotification/Send-PasswordNotification.ps1#L219
 
 #endregion
 
