@@ -2,6 +2,8 @@
 
 PowerShell for Developers course samples
 
-## Project sctucture
+## Project structure
 
-Scripts are located in folder [src](src).
+- [Chapter transcripts](Chapters)
+- [Demo files](DemoFiles)
+- [Lab Files](LabFiles)
