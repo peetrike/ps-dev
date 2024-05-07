@@ -133,7 +133,7 @@ Get-ChildItem -path $ModulePath -Filter *.dll
 Find-PSResource BurntToast -Repository PSGallery
 Find-PSResource AnyBox -Repository PSGallery
 
-# https://github.com/1RedOne/PowerShell_XAML/
+# https://www.foxdeploy.com/series/LearningGUIs
 
 # https://ironmansoftware.com/powershell-universal-dashboard
 # https://demo.powershelluniversal.com/
