@@ -19,13 +19,33 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Script Modules
 
+# https://learn.microsoft.com/powershell/scripting/lang-spec/chapter-11
+# https://learn.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-script-module
+
+New-Module -Name SayHello -ScriptBlock {
+    function get-hello {
+        'Hello'
+    }
+} | Import-Module
+Get-Module SayHello
+get-hello
+Remove-Module SayHello
+
 #endregion
 
 #region Converting a Script into a Script Module
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#myinvocation
+
+Get-Help Export-ModuleMember
+
 #endregion
 
 #region Testing a Script Module
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#manually-import-a-module
+
+Get-Help Import-Module -Parameter Name
 
 #endregion
 
@@ -36,17 +56,31 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Module Manifest
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests
+
 #endregion
 
 #region Creating Module Manifest
+
+Get-Command -Noun ModuleManifest -Module Microsoft.PowerShell.Core
+
+New-ModuleManifest -Path .\myModule.psd1 -ModuleVersion 2.0 -Author $env:USERNAME
+
+Get-Command -verb update -Noun *ModuleManifest
+
+# https://learn.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest#sample-module-manifest
 
 #endregion
 
 #region Manifest fields that affect module loading
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#manifest-settings
+
 #endregion
 
 #region Metadata fields in Manifest
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#moduleversion
 
 #endregion
 
@@ -57,6 +91,8 @@ throw "You're not supposed to run the entire script"
 
 #region Module Autoloading
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#module-autoloading
+
 #endregion
 
 #region Module folder structure
@@ -65,11 +101,24 @@ throw "You're not supposed to run the entire script"
 
 #region Module search paths
 
+Get-Help about_PSModulePath -ShowWindow
+
+$env:PSModulePath -split [IO.Path]::PathSeparator
+
+#Requires -Version 7.4
+Get-ExperimentalFeature -Name PSModuleAutoLoadSkipOfflineFiles
+
+
 #endregion
 
 #region Installing Modules
 
+# https://learn.microsoft.com/powershell/gallery/how-to/working-with-local-psrepositories
+
 # https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Update-PowerShellGet.ps1
+
+Get-Command Install-Module
+Get-Command Install-PSResource
 
 #endregion
 
@@ -80,13 +129,21 @@ throw "You're not supposed to run the entire script"
 
 #region Module Requirements for Publishing
 
+# https://learn.microsoft.com/powershell/gallery/how-to/publishing-packages/publishing-a-package#required-metadata-for-items-published-to-the-powershell-gallery
+
 #endregion
 
 #region Publishing Module using PowerShellGet
 
+Get-Help Publish-Module -ShowWindow
+
 #endregion
 
 #region Publishing Module using PSResourceGet
+
+Get-Help Publish-PSResource -ShowWindow
+
+# https://learn.microsoft.com/powershell/gallery/powershellget/supported-repositories
 
 #endregion
 
