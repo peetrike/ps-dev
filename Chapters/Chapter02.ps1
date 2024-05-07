@@ -39,9 +39,27 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Kinds of Functions
 
+function get-pipe {
+    process {
+        'The value is {0}' -f $_
+    }
+}
+1, 2, 3 | get-pipe
+
 #endregion
 
 #region Creating an Advanced Function
+function get-logicalDisk {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)] [string] $Drive
+    )
+
+    Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DeviceID='$Drive'"
+}
+
+get-logicalDisk -Drive 'C:'
+get-logicalDisk
 
 #endregion
 
