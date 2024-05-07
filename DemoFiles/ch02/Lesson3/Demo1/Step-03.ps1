@@ -5,7 +5,7 @@ function Get-UserLogonInfo {
     param (
             [Parameter(
                 Mandatory,
-                HelpMessage = "A filter, such as 'samAccountName -like `"admin*`"', which is used to search for users."
+                HelpMessage = "A filter, like 'samAccountName -like `"admin*`"', used to search for users."
             )]
             [string]
         $Filter,
