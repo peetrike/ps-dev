@@ -27,6 +27,10 @@ throw "You're not supposed to run the entire script"
 
 #region Combining Tools and Controller Scripts
 
+Get-Help about_Requires -ShowWindow
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests
+
 #endregion
 
 #region Comparing Tools and Controller Scripts
@@ -40,37 +44,92 @@ throw "You're not supposed to run the entire script"
 
 #region Using Write-Progress
 
+Get-Help Write-Progress
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-progressaction
+
 #endregion
 
 #region Using Verbose Output
+
+Get-Help Write-Verbose
 
 #endregion
 
 #region Writing to screen
 
+Get-Help Write-Host
+Get-Help Write-Host -Parameter *color
+
+Get-Help Write-Information
+
+#Requires -version 7.2
+$PSStyle
+Get-Help about_ANSI_Terminals -ShowWindow
+Find-PSResource PSStyle -Repository PSGallery
+
 #endregion
 
 #region Using Read-Host
+
+Get-Help Read-Host
+Get-Help Read-Host -Parameter AsSecureString
 
 #endregion
 
 #region Creating multi-choice prompt
 
+# https://github.com/peetrike/Examples/blob/main/src/Gui/Read-Choice.ps1
+# https://learn.microsoft.com/dotnet/api/system.management.automation.host.pshostuserinterface.promptforchoice
+
 #endregion
 
 #region Using Get-Credential
+
+# https://learn.microsoft.com/powershell/scripting/learn/deep-dives/add-credentials-to-powershell-functions
+
+Get-Help Get-Credential
+Get-Module BetterCredentials -ListAvailable
+
+function Use-Credential {
+    param(
+            [ValidateNotNull()]
+            [Management.Automation.PSCredential]
+            [Management.Automation.Credential()]
+        $Credential = [Management.Automation.PSCredential]::Empty
+    )
+
+    $Credential
+}
+
+Use-Credential -Credential $env:COMPUTERNAME\mina
 
 #endregion
 
 #region Using Out-GridView
 
+Get-Help Out-GridView
+Get-Help Out-GridView -Parameter OutputMode
+Get-Help Out-GridView -Parameter PassThru
+
 #endregion
 
 #region Using Text-based User Interface
 
+Find-PSResource Microsoft.PowerShell.ConsoleGuiTools -Repository PSGallery
+
+$ModulePath = (Get-Module Microsoft.PowerShell.ConsoleGuiTools -ListAvailable)[0].ModuleBase
+Get-ChildItem -path $ModulePath -Filter *.dll
+
+# https://gui-cs.github.io/Terminal.Gui/docs/overview.html
+
 #endregion
 
 #region Using GUI elements
+
+# https://github.com/peetrike/Examples/blob/main/src/Gui/
+
+Find-PSResource BurntToast -Repository PSGallery
 
 #endregion
 
