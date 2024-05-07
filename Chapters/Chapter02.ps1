@@ -83,17 +83,163 @@ get-logicalDisk
 
 #region Defining a Parameter as Mandatory
 
+function arvuti {
+    [CmdletBinding()]
+    param (
+            [Parameter(Mandatory=$true)]
+            [string]
+        $ComputerName = $env:COMPUTERNAME
+    )
+
+    $ComputerName
+}
+
 #endregion
 
 #region Defining a Parameter Help Message
+function arvuti {
+    [CmdletBinding()]
+    param (
+            [Parameter(
+                Mandatory = $true,
+                HelpMessage = '
+                    Computer name to connect to
+                    and something else
+                    '
+            )]
+            [string]
+        $ComputerName
+    )
+
+    $ComputerName
+}
+
 
 #endregion
 
 #region Defining Parameter Name Aliases
+function arvuti {
+    [CmdletBinding()]
+    [Alias('Computer')]
+    param (
+            [Parameter(
+                Mandatory = $true,
+                HelpMessage = '
+                    Computer name to connect to
+                    and something else
+                    '
+            )]
+            [Alias(
+                'CN',
+                'Hostname',
+                'Target',
+                'fqdn',
+                'server'
+            )]
+            [string]
+        $ComputerName
+    )
+
+    $ComputerName
+}
 
 #endregion
 
 #region Understanding Parameter Input Validation
+function arvuti {
+    [CmdletBinding()]
+    [Alias('Computer')]
+    param (
+            [Parameter(
+                Mandatory = $true,
+                HelpMessage = '
+                    Computer name to connect to
+                    and something else
+                    '
+            )]
+            [Alias(
+                'CN',
+                'Hostname',
+                'Target',
+                'fqdn',
+                'server'
+            )]
+            [ValidatePattern('^SRV-')]
+            [string]
+        $ComputerName
+    )
+
+    $ComputerName
+}
+
+function arvuti {
+    [CmdletBinding()]
+    [Alias('Computer')]
+    param (
+            [Parameter(
+                Mandatory = $true,
+                HelpMessage = '
+                    Computer name to connect to
+                    and something else
+                    '
+            )]
+            [Alias(
+                'CN',
+                'Hostname',
+                'Target',
+                'fqdn',
+                'server'
+            )]
+            [ValidateScript({
+                if ($_ -match '^SRV-') {
+                    $true
+                } else {
+                    Throw 'The ComputerName must start with Srv-'
+                }
+            })]
+            [string]
+        $ComputerName
+    )
+
+    $ComputerName
+}
+
+function arvuti {
+    [CmdletBinding()]
+    [Alias('Computer')]
+    param (
+            [Parameter(
+                Mandatory = $true,
+                HelpMessage = '
+                    Computer name to connect to
+                    and something else
+                    '
+            )]
+            [Alias(
+                'CN',
+                'Hostname',
+                'Target',
+                'fqdn',
+                'server'
+            )]
+            [ValidatePattern('^SRV-', ErrorMessage = 'Must start with SRV-')]
+            [string]
+        $ComputerName
+    )
+
+    $ComputerName
+}
+
+function vastus {
+    [CmdletBinding()]
+    param (
+            [ValidateSet('Jah', 'Ei')]
+            [string]
+        $vastus
+    )
+
+    $vastus
+}
 
 #endregion
 
