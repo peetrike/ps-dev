@@ -128,11 +128,13 @@ Get-ChildItem -path $ModulePath -Filter *.dll
 #region Using GUI elements
 
 # https://github.com/peetrike/Examples/blob/main/src/Gui/
+# https://learn.microsoft.com/powershell/scripting/samples/creating-a-custom-input-box
 
 Find-PSResource BurntToast -Repository PSGallery
+Find-PSResource AnyBox -Repository PSGallery
 
-# https://learn.microsoft.com/powershell/scripting/samples/creating-a-custom-input-box
-# https://www.foxdeploy.com/series/LearningGUIs
+# https://github.com/1RedOne/PowerShell_XAML/
+
 # https://ironmansoftware.com/powershell-universal-dashboard
 # https://demo.powershelluniversal.com/
 
