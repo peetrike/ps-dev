@@ -358,9 +358,50 @@ function nimed {
 
 #region Understanding Comment-Based Help
 
+function tere {
+    [Alias('Hello')]
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromPipeline)]
+        [string]
+        $Nimi = $env:USERNAME
+    )
+
+    'Tere {0}' -f $Nimi
+}
+
+Get-Help tere
+
 #endregion
 
 #region Adding Comment-Based Help to a Function
+function tere {
+    <#
+        .SYNOPSIS
+            Prints greeting
+        .DESCRIPTION
+            This function greets whoever given as parameter.  If no parameter
+            value is provided, the currently logged on user will be greeted.
+        .EXAMPLE
+            tere -Nimi Paul
+        .EXAMPLE
+            tere
+
+            This example greets the currently logged on user.
+    #>
+    [OutputType([string])]
+    [Alias('Hello')]
+    [CmdletBinding()]
+    param (
+            [string]
+            # The name of the person to greet
+        $Nimi = $env:USERNAME
+    )
+
+    'Tere {0}' -f $Nimi
+}
+
+Get-Help tere -Full
 
 #endregion
 
