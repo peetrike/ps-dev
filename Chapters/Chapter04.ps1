@@ -156,13 +156,26 @@ Find-PSResource AnyBox -Repository PSGallery
 
 #region Redirecting Message Streams
 
+Get-Help about_Redirection -ShowWindow
+Get-Help about_CommonParameters -ShowWindow
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters
+
 #endregion
 
 #region Logging to a Text File
 
+Get-Help Add-Content
+Get-Help Out-File
+Get-Help Export-Csv
+
 #endregion
 
 #region Logging to Event Log
+
+# PowerShell version <= 5.1
+Get-Help Write-EventLog
+
+# https://learn.microsoft.com/dotnet/api/system.diagnostics.eventlog
 
 #endregion
 
