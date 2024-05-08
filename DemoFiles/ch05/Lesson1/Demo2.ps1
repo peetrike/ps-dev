@@ -19,7 +19,7 @@ try {
     Write-Warning -Message $_.Exception.Message
 }
 
-Write-Verbose 'PASS 3: That is why we enumerate - so we only try one computer at a time'
+Write-Verbose 'PASS 3: That is why we enumerate - so we only try one folder at a time'
 foreach ($folder in $PathList) {
     try {
         Get-ChildItem -Path $folder -ErrorAction Stop
