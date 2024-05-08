@@ -45,6 +45,30 @@ Get-Help about_Requires -ShowWindow
 #region Using Write-Progress
 
 Get-Help Write-Progress
+Get-Help Write-Progress -Parameter SecondsRemaining
+Get-Help Write-Progress -Parameter PercentComplete
+
+Write-Progress -Activity 'teeme' -PercentComplete 30 -id 1 -ProgressAction SilentlyContinue
+Start-Sleep -Seconds 3
+
+foreach ( $i in 1..10 ) {
+    Write-Progress -Id 0 "Step $i" -PercentComplete ($i * 10)
+    foreach ( $j in 1..10 ) {
+        Write-Progress -Id 1 -ParentId 0 "Substep $j" -PercentComplete ($j * 10)
+        foreach ( $k in 1..10 ) {
+            Write-Progress -Id 2 -ParentId 1 "Iteration $k" -PercentComplete ($k * 10)
+            Start-Sleep -Milliseconds 100
+        }
+    }
+}
+
+$ProgressPreference
+
+#Requires -version 7.4
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-progressaction
+
+Invoke-WebRequest -uri ... -ProgressAction SilentlyContinue
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-progressaction
 
@@ -74,6 +98,9 @@ Find-PSResource PSStyle -Repository PSGallery
 
 Get-Help Read-Host
 Get-Help Read-Host -Parameter AsSecureString
+
+$answer = Read-Host 'Enter your name'
+$Password = Read-Host 'Enter the password' -AsSecureString
 
 #endregion
 
@@ -164,6 +191,8 @@ Get-Help about_CommonParameters -ShowWindow
 
 #region Logging to a Text File
 
+# https://github.com/peetrike/scripts/blob/master/src/Write-Log.ps1
+
 Get-Help Add-Content
 Get-Help Out-File
 Get-Help Export-Csv
@@ -186,21 +215,42 @@ Get-Help Write-EventLog
 
 #region Exporting data from PowerShell
 
+Get-Command ConvertTo-Json
+Get-Command ConvertTo-Xml
+Get-Command Export-Csv
+
+Get-Command Set-Content
+Get-Command Add-Content
+
 #endregion
 
 #region Converting command output to HTML
+
+Get-Help ConvertTo-Html
 
 #endregion
 
 #region Adding Basic Formatting to an HTML Page
 
+Get-Help ConvertTo-Html -Property CssUri
+Get-Help ConvertTo-Html -Property Head
+
+Find-PSResource PSWriteHtml -Repository PSGallery
+
+# don't do this:
+# https://gist.github.com/smasterson/9136468
+
 #endregion
 
 #region Converting command output to Excel
 
+Find-PSResource ImportExcel -Repository PSGallery
+
 #endregion
 
 #region Converting command output to PDF
+
+Find-PSResource PSWritePDF -Repository PSGallery
 
 #endregion
 
