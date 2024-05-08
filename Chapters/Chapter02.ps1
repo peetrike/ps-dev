@@ -514,6 +514,17 @@ Get-Item test.txt | Remove-File -Confirm
 
 #region Adding Support for –WhatIf and –Confirm
 
+function Set-Something {
+    [OutputType([string])]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    param ()
+
+    if ($PSCmdlet.ShouldProcess('Something')) {
+        'Setting stuff'
+    }
+}
+
+
 # https://github.com/peetrike/Examples/blob/main/CommandLine/14%20Whatif%20and%20Confirm.ps1
 
 # https://learn.microsoft.com/dotnet/api/system.management.automation.cmdlet.shouldprocess
