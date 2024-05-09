@@ -122,6 +122,11 @@ try {
     "Unknown error $_" | Add-Content -Path master-error-log.txt
 }
 
+
+#endregion
+
+#region Adding Error Handling Code to a Script
+
 function Get-BiosInfo {
     param (
             [Parameter(Mandatory)]
@@ -134,9 +139,10 @@ function Get-BiosInfo {
 
     foreach ($computer in Get-Content $NameFile) {
         try {
-            Get-CimInstance -ClassName Win32_BIOS -ComputerName $computer
+            Get-CimInstance -ClassName Win32_BIOS -ComputerName $computer -ErrorAction Stop
         } catch {
             [PSCustomObject]@{
+                Date         = [datetime]::Now
                 ComputerName = $computer
                 Error        = $_.Exception.Message
             } | Export-Csv errorlog.csv -Encoding utf8 -Append
@@ -144,10 +150,6 @@ function Get-BiosInfo {
     }
 }
 Get-BiosInfo -NameFile somefile.txt
-
-#endregion
-
-#region Adding Error Handling Code to a Script
 
 #endregion
 
