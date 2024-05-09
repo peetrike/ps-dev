@@ -36,6 +36,18 @@ $DebugPreference
 code -r ..\DemoFiles\ch06\Test-Debug.ps1
 ..\DemoFiles\ch06\Test-Debug.ps1
 
+function Test-Debug {
+    [CmdletBinding()]
+    param ()
+
+    $PSVersionTable.PSVersion
+    if ($PSBoundParameters.ContainsKey('Debug')) {
+        $DebugPreference = 'continue'
+    }
+    Write-Debug -Message ('The preference variable is now {0}' -f $DebugPreference)
+}
+
+
 #endregion
 
 #region Setting Breakpoints
