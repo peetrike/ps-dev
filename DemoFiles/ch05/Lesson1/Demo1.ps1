@@ -34,7 +34,7 @@ Get-ChildItem C:\doesnotexist
 
 # Generate terminating EXCEPTION and stop
 $ErrorActionPreference = 'Stop'
-Get-ChildItem C:\doesnotexist
+Get-ChildItem C:\doesnotexist, C:\Windows\Temp, .
 
 # Only terminating exceptions can be trapped
 
