@@ -12,18 +12,21 @@ function Get-ServiceProcess {
 
     $ServiceName = $ServiceName.Replace('*', '%')
     Get-CimInstance -ClassName Win32_Service -Filter "Name LIKE '$ServiceName'" -Verbose:$false | ForEach-Object {
-        if ($_.State -ne 'Running') {
+        if ($_.State -eq 'Stopped') {
             $processName = '(Not started)'
         } else {
             $process = Get-Process -Id $_.ProcessId
             $processName = $process.name
         }
         [PSCustomObject] @{
+            PSTypeName   = 'PSDevOps.ServiceProcess'
             ComputerName = $env:COMPUTERNAME
             ServiceName  = $_.Name
             ProcessName  = $processName
+            ProcessId    = $_.ProcessId
+            ServiceState = $_.State
         }
     }
 }
 
-Get-ServiceProcess -ServiceName Win*
+Get-ServiceProcess -ServiceName Win* | Out-GridView
