@@ -19,17 +19,37 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Debugging
 
+Get-Process -Id $PID | Select-Object -Property nmae, id
+
+Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
+
+code -r ..\DemoFiles\ch06\Lesson1\Demo1\Step-01.ps1
+
 #endregion
 
 #region Displaying Debug Output
+
+Get-Help Write-Debug
+
+$DebugPreference
+
+code -r ..\DemoFiles\ch06\Test-Debug.ps1
+..\DemoFiles\ch06\Test-Debug.ps1
 
 #endregion
 
 #region Setting Breakpoints
 
+Get-Command -Noun PSBreakpoint
+
+Get-Help Set-PSBreakpoint
+
 #endregion
 
 #region Debugging in the IDE
+
+# https://code.visualstudio.com/docs/editor/debugging
+# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode#debugging-with-visual-studio-code
 
 #endregion
 
@@ -61,13 +81,23 @@ throw "You're not supposed to run the entire script"
 
 #region What is Pester
 
+Find-PSResource Pester -Repository PSGallery
+
+# https://pester.dev
+
 #endregion
 
 #region Writing tests
 
+Get-Help New-Fixture
+
 #endregion
 
 #region Running tests
+
+Get-Help Invoke-Pester
+
+Get-Help New-PesterConfiguration
 
 #endregion
 
