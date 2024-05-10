@@ -6,7 +6,8 @@ Describe 'Get-ServiceProcess' {
     }
     Context 'Function output' {
         BeforeAll {
-            $Result = Get-ServiceProcess -ServiceName LanmanWorkstation
+            $ServiceName = 'LanmanWorkstation'
+            $Result = Get-ServiceProcess -ServiceName $ServiceName
         }
         It 'Output should have custom typename' {
             $Result.psobject.TypeNames | Should -Contain 'PSDevOps.ServiceProcess'
@@ -15,7 +16,7 @@ Describe 'Get-ServiceProcess' {
             $Result.ProcessName | Should -Be 'svchost'
         }
         It 'Service name should be correct' {
-            $Result.ServiceName | Should -Be 'LanmanWorkstation'
+            $Result.ServiceName | Should -Be $ServiceName
         }
         It 'Computer name should be correct' {
             $Result.ComputerName | Should -Be $env:COMPUTERNAME
