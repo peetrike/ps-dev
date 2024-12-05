@@ -10,7 +10,7 @@ the highlighted line
 [System.Environment]::MachineName
 
 # 3. Using the PowerShell $env variable, display the current computer name.
-# This shows that .NET Framework classes often overlap shell functionality.
+# This shows that .NET classes often overlap PowerShell functionality.
 $env:COMPUTERNAME
 
 # 4. Display the value of the mathematical constant e.
