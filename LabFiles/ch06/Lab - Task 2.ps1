@@ -1,64 +1,31 @@
-﻿#Requires -Modules UserProfile
+﻿function Get-CorpNetAdapterInfo {
+    <#
+        .SYNOPSIS
+            Retrieves network adapter information.
+        .DESCRIPTION
+            This function retrieves network adapter information from the local computer.
+        .EXAMPLE
+            Get-CorpNetAdapterInfo
+    #>
+    [CmdletBinding()]
+    param ()
 
-[CmdletBinding()]
-param ()
+    foreach ($adapter in Get-NetAdapter) {
+        $AdapterName = $adapter.Name
+        $InterfaceIndex = $adapter.InterfaceIndex
 
-
-function Get-CurrentUser {
-    [Security.Principal.WindowsIdentity]::GetCurrent() |
-        Add-Member -MemberType AliasProperty -Name SID -Value User -PassThru
-}
-
-$Filter = "Local=True AND Name='administrator'"
-Get-CimInstance -ClassName Win32_UserAccount -Filter $Filter -ErrorVariable problem |
-    Get-UserProfile
-
-Get-CurrentUser | Select-Object SID | Get-UserProfile -ErrorVariable +problem
-
-if ($PSBoundParameters.ContainsKey('Debug')) {
-    function Write-LogError {
-        [CmdletBinding()]
-        param (
-                [Parameter(
-                    Mandatory,
-                    ValueFromPipeline
-                )]
-                [Management.Automation.ErrorRecord]
-            $ErrorRecord,
-                [string]
-            $LogPath = (Join-Path -Path $PWD -ChildPath 'ErrorLog.csv')
-        )
-
-        begin {
-            $PropertyList = @(
-                @{
-                    Name       = 'Time'
-                    Expression = { [datetime]::Now.ToString('o') }
+        try {
+            Get-NetIPAddress -InterfaceIndex $InterfaceIndex -ErrorAction Stop | ForEach-Object {
+                [PSCustomObject] @{
+                    ComputerName   = $Env:COMPUTERNAME
+                    AdapterName    = $AdapterName
+                    InterfaceIndex = $InterfaceIndex
+                    IPAddress      = $_.IPAddress
+                    AddressFamily  = $_.AddressFamily
                 }
-                @{
-                    Name       = 'Message'
-                    Expression = { $_.Exception.Message }
-                }
-                'FullyQualifiedErrorId'
-                @{
-                    Name       = 'Command'
-                    Expression = { $_.InvocationInfo.MyCommand }
-                }
-                @{
-                    Name       = 'Line'
-                    Expression = { $_.InvocationInfo.ScriptLineNumber }
-                }
-                'ScriptStackTrace'
-                'CategoryInfo'
-                'TargetObject'
-            )
-        }
+            }
+        } catch {
 
-        process {
-            $ErrorRecord |
-                Select-Object -Property $PropertyList |
-                Export-Csv -Path $LogPath -NoTypeInformation -Append -Encoding utf8
         }
     }
-    $problem | Write-LogError
 }

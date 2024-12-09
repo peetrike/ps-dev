@@ -1,29 +1,29 @@
-﻿
-function Get-ArchitectureInfo {
-    [CmdletBinding()]
-    param()
+﻿# Run this entire script to see the differences
+$VerbosePreference = 'Continue'
+$PathList = 'C:\DoesNotExist', 'C:\Windows\Temp', '.'
 
-        # All CPUs should be the same so only get one
-    $proc = Get-CimInstance -ClassName Win32_Processor | Select-Object -First 1
-    $os = Get-CimInstance -ClassName Win32_OperatingSystem
+Write-Verbose 'PASS 1: Attempt to trap a non-terminating error'
+try {
+    Get-ChildItem -Path $PathList
+} catch {
+    Write-Warning 'The command on this line never runs because the error is never trapped'
+}
 
-    $properties = @{
-        ComputerName     = $env:COMPUTERNAME
-        OSArchitecture   = $os.OSArchitecture
-        ProcArchitecture = $proc.AddressWidth
+Write-Verbose 'PASS 2: Attempt to trap a terminating error'
+try {
+    Get-ChildItem -Path $PathList -ErrorAction Stop
+} catch {
+    $Message = 'The command on this line runs,' +
+        ' but no paths are checked because the command terminates on first error:'
+    Write-Warning -Message $Message
+    Write-Warning -Message $_.Exception.Message
+}
+
+Write-Verbose 'PASS 3: That is why we enumerate - so we only try one folder at a time'
+foreach ($folder in $PathList) {
+    try {
+        Get-ChildItem -Path $folder -ErrorAction Stop
+    } catch {
+        Write-Warning "Trapped error on $folder"
     }
-    [PSCustomObject] $properties
 }
-
-Set-PSBreakpoint -Script $PSCommandPath -Line 7
-
-# Also set a breakpoint that outputs data to a debugging file
-# each time $properties is written to
-Set-PSBreakpoint -Script $PSCommandPath -Variable properties -Mode Write -Action {
-    $properties | Out-File $PSScriptRoot\debug.txt -Append
-}
-
-# This will run the command
-Get-ArchitectureInfo |
-    Where-Object { $_.ProcArchitecture -ne $_.OSArchitecture } |
-    Select-Object -Property ComputerName
