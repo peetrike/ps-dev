@@ -3,7 +3,7 @@
         Chapter 05 samples
     .DESCRIPTION
         This file contains sample commands from course PS-Dev for
-        Chapter 05 - Handling Errors
+        Chapter 05 - Writing Controller Scripts
     .LINK
         https://github.com/peetrike/ps-dev
     .LINK
@@ -15,227 +15,248 @@ throw "You're not supposed to run the entire script"
 #endregion
 
 
-#region Lesson 1 - Understanding Error Handling
+#region Lesson 1 - Understanding Controller Scripts
 
-#region Comparing Different Kinds of Errors
-
-#endregion
-
-#region Understanding the Default Error Handling
-
-# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#erroractionpreference
-$ErrorActionPreference
-
-# https://github.com/peetrike/PWAddins/blob/master/src/Public/Get-EnumValue.ps1
-$ErrorActionPreference.GetType() | Get-EnumValue
-
-# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-erroraction
-
-#Requires -Version 7.3
-# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.4#psnativecommanduseerroractionpreference
-$PSNativeCommandUseErrorActionPreference
-
-$Error | Get-Member
-$Error.GetType()
-Get-Member -InputObject $Error
-
-$Error.Clear()
-Get-ChildItem /doesnotexist -ErrorAction SilentlyContinue -ErrorVariable MyError
-$MyError
-
-$MyError.GetType()
-$MyError[0] -eq $Error[0]
+#region Understanding Tools
 
 #endregion
 
-#region Detecting Errors
-
-Get-Help about_Try_Catch_Finally -ShowWindow
-
-try {
-    Get-ChildItem /doesnotexist -ErrorAction Stop
-    'Succeeded previous command'
-} catch {
-    'oops'
-}
-
-try {
-    Get-ChildItem /doesnotexist -ErrorAction Stop
-    'Succeeded previous command'
-} catch [Management.Automation.ItemNotFoundException] {
-    'a folder does not exist'
-} catch {
-    'oops'
-}
-
-try {
-    Get-ChildItem $env:windir\temp -ErrorAction Stop
-    'Succeeded previous command'
-} catch [Management.Automation.ItemNotFoundException] {
-    'a folder does not exist'
-} catch {
-    'oops'
-    $_.Exception.GetType()
-}
-
-try {
-    Get-ChildItem /doesnotexist -ErrorAction Stop
-    'Succeeded previous command'
-} catch {
-    'oops'
-} finally {
-    'always runs'
-}
-
-try {
-    Get-ChildItem . -ErrorAction Stop
-    'Succeeded previous command'
-} catch {
-    'oops'
-} finally {
-    'always runs'
-}
+#region Understanding Controller Scripts
 
 #endregion
 
-#region Capturing Errors
+#region Combining Tools and Controller Scripts
+
+Get-Help about_Requires -ShowWindow
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests
+
+#endregion
+
+#region Comparing Tools and Controller Scripts
 
 #endregion
 
 #endregion
 
 
-#region Lesson 2 - Handling Errors in a Script
+#region Lesson 2 - Writing Interactive Controller Scripts
 
-#region Identifying and Anticipating Operational Errors
+#region Using Write-Progress
 
-try {
-    $computers = Get-Content names.txt -ErrorAction Stop
-    foreach ($computer in $computers) {
-        try {
-            Get-CimInstance -Class Win32_BIOS -ComputerName $computer -ErrorAction Stop
-        } catch {
-            $computer | Out-File errorlog.txt -append
-        }
-    }
-} catch {
-    "Unknown error $_" | Add-Content -Path master-error-log.txt
-}
+Get-Help Write-Progress
+Get-Help Write-Progress -Parameter SecondsRemaining
+Get-Help Write-Progress -Parameter PercentComplete
 
+Write-Progress -Activity 'teeme' -PercentComplete 30 -id 1 -ProgressAction SilentlyContinue
+Start-Sleep -Seconds 3
 
-#endregion
-
-#region Adding Error Handling Code to a Script
-
-function Get-BiosInfo {
-    param (
-            [Parameter(Mandatory)]
-            [ValidateScript({
-                Test-Path -Path $_ -PathType Leaf
-            }, ErrorMessage = 'File does not exist')]
-            [string]
-        $NameFile
-    )
-
-    foreach ($computer in Get-Content $NameFile) {
-        try {
-            Get-CimInstance -ClassName Win32_BIOS -ComputerName $computer -ErrorAction Stop
-        } catch {
-            [PSCustomObject]@{
-                Date         = [datetime]::Now
-                ComputerName = $computer
-                Error        = $_.Exception.Message
-            } | Export-Csv errorlog.csv -Encoding utf8 -Append
+foreach ( $i in 1..10 ) {
+    Write-Progress -Id 0 "Step $i" -PercentComplete ($i * 10)
+    foreach ( $j in 1..10 ) {
+        Write-Progress -Id 1 -ParentId 0 "Substep $j" -PercentComplete ($j * 10)
+        foreach ( $k in 1..10 ) {
+            Write-Progress -Id 2 -ParentId 1 "Iteration $k" -PercentComplete ($k * 10)
+            Start-Sleep -Milliseconds 100
         }
     }
 }
-Get-BiosInfo -NameFile somefile.txt
+
+$ProgressPreference
+
+#Requires -version 7.4
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-progressaction
+
+Invoke-WebRequest -uri ... -ProgressAction SilentlyContinue
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-progressaction
 
 #endregion
 
-#region Logging Errors to a Text File
+#region Using Verbose Output
+
+Get-Help Write-Verbose
 
 #endregion
 
+#region Writing to screen
+
+Get-Help Write-Host
+Get-Help Write-Host -Parameter *color
+
+Get-Help Write-Information
+
+#Requires -version 7.2
+$PSStyle
+Get-Help about_ANSI_Terminals -ShowWindow
+Find-PSResource PSStyle -Repository PSGallery
+
 #endregion
 
+#region Using Read-Host
 
-#region Lesson 3 - Raising Errors in a Script
+Get-Help Read-Host
+Get-Help Read-Host -Parameter AsSecureString
 
-#region Understanding Error stream
-
-$Error[0].GetType() | Get-TypeUrl -Invoke
-$Error[0] | Get-Member
-
-    #Requires -Version 7
-Get-Error
+$answer = Read-Host 'Enter your name'
+$Password = Read-Host 'Enter the password' -AsSecureString
 
 #endregion
 
-#region Raising terminating errors
+#region Creating multi-choice prompt
 
-Get-Help about_Throw -ShowWindow
+# https://github.com/peetrike/Examples/blob/main/src/Gui/Read-Choice.ps1
+# https://learn.microsoft.com/dotnet/api/system.management.automation.host.pshostuserinterface.promptforchoice
 
-function MyError {
-    [CmdletBinding()]
-    param ()
+#endregion
 
-    $myError = New-Object -TypeName Management.Automation.ErrorRecord -ArgumentList @(
-        [Management.Automation.RuntimeException] 'oops'
-        'CustomError'
-        [System.Management.Automation.ErrorCategory]::ObjectNotFound
-        Get-Process -Id $PID
+#region Using Get-Credential
+
+# https://learn.microsoft.com/powershell/scripting/learn/deep-dives/add-credentials-to-powershell-functions
+
+Get-Help Get-Credential
+Get-Module BetterCredentials -ListAvailable
+
+function Use-Credential {
+    param(
+            [ValidateNotNull()]
+            [Management.Automation.PSCredential]
+            [Management.Automation.Credential()]
+        $Credential = [Management.Automation.PSCredential]::Empty
     )
-    $PSCmdlet.ThrowTerminatingError($myError)
+
+    $Credential
 }
-try {
-    MyError
-    'this does not appear'
-} catch {
-    Get-Error
-}
+
+Use-Credential -Credential $env:COMPUTERNAME\mina
 
 #endregion
 
-#region Raising non-terminating errors
+#region Using Out-GridView
 
-Get-Help Write-Error
-function MyError {
-    [CmdletBinding()]
-    param ()
-
-    $myError = New-Object -TypeName Management.Automation.ErrorRecord -ArgumentList @(
-        [Management.Automation.RuntimeException] 'oops'
-        'CustomError'
-        [System.Management.Automation.ErrorCategory]::ObjectNotFound
-        Get-Process -Id $PID
-    )
-    $PSCmdlet.WriteError($myError)
-}
-MyError; 'this still appears'
-Get-Error
+Get-Help Out-GridView
+Get-Help Out-GridView -Parameter OutputMode
+Get-Help Out-GridView -Parameter PassThru
 
 #endregion
 
-#region Using Warning stream
+#region Using Text-based User Interface
 
-function Invoke-Useful {
-    [CmdletBinding()]
-    param ()
+Find-PSResource Microsoft.PowerShell.ConsoleGuiTools -Repository PSGallery
 
-    Write-Warning -Message 'Something unusual happened'
-}
+$ModulePath = (Get-Module Microsoft.PowerShell.ConsoleGuiTools -ListAvailable)[0].ModuleBase
+Get-ChildItem -path $ModulePath -Filter *.dll
 
-Invoke-Useful -WarningVariable +warning -WarningAction SilentlyContinue
-$warning | Format-List * -Force
-$warning.InvocationInfo
+# https://gui-cs.github.io/Terminal.Gui/docs/overview.html
 
+#endregion
+
+#region Using GUI elements
+
+# https://github.com/peetrike/Examples/blob/main/src/Gui/
+# https://learn.microsoft.com/powershell/scripting/samples/creating-a-custom-input-box
+
+Find-PSResource BurntToast -Repository PSGallery
+Find-PSResource AnyBox -Repository PSGallery
+
+# https://www.foxdeploy.com/series/LearningGUIs
+
+# https://ironmansoftware.com/powershell-universal-dashboard
+# https://demo.powershelluniversal.com/
 
 #endregion
 
 #endregion
 
 
-#region Lab - Handling Errors in a Script
+#region Lab A - Writing Controller Scripts That Display a User Interface
+
+#endregion
+
+
+#region Lesson 3 - Use Logging in Controller Scripts
+
+#region Kinds of information to log
+
+#endregion
+
+#region Redirecting Message Streams
+
+Get-Help about_Redirection -ShowWindow
+Get-Help about_CommonParameters -ShowWindow
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters
+
+#endregion
+
+#region Logging to a Text File
+
+# https://github.com/peetrike/scripts/blob/master/src/Write-Log.ps1
+
+Get-Help Add-Content
+Get-Help Out-File
+Get-Help Export-Csv
+
+#endregion
+
+#region Logging to Event Log
+
+# PowerShell version <= 5.1
+Get-Help Write-EventLog
+
+# https://learn.microsoft.com/dotnet/api/system.diagnostics.eventlog
+
+#endregion
+
+#endregion
+
+
+#region Lesson 4 - Writing Controller Scripts That Perform Reporting
+
+#region Exporting data from PowerShell
+
+Get-Command ConvertTo-Json
+Get-Command ConvertTo-Xml
+Get-Command Export-Csv
+
+Get-Command Set-Content
+Get-Command Add-Content
+
+#endregion
+
+#region Converting command output to HTML
+
+Get-Help ConvertTo-Html
+
+#endregion
+
+#region Adding Basic Formatting to an HTML Page
+
+Get-Help ConvertTo-Html -Property CssUri
+Get-Help ConvertTo-Html -Property Head
+
+Find-PSResource PSWriteHtml -Repository PSGallery
+
+# don't do this:
+# https://gist.github.com/smasterson/9136468
+
+#endregion
+
+#region Converting command output to Excel
+
+Find-PSResource ImportExcel -Repository PSGallery
+
+#endregion
+
+#region Converting command output to PDF
+
+Find-PSResource PSWritePDF -Repository PSGallery
+
+#endregion
+
+#endregion
+
+
+#region Lab B - Writing Controller Scripts That Produce HTML
 
 #endregion

@@ -3,7 +3,7 @@
         Chapter 06 samples
     .DESCRIPTION
         This file contains sample commands from course PS-Dev for
-        Chapter 06 - Analyzing and Debugging Scripts
+        Chapter 06 - Handling Errors
     .LINK
         https://github.com/peetrike/ps-dev
     .LINK
@@ -15,107 +15,227 @@ throw "You're not supposed to run the entire script"
 #endregion
 
 
-#region Lesson 1 - Debugging in PowerShell
+#region Lesson 1 - Understanding Error Handling
 
-#region Understanding Debugging
-
-Get-Process -Id $PID | Select-Object -Property nmae, id
-
-Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
-
-code -r ..\DemoFiles\ch06\Lesson1\Demo1\Step-01.ps1
+#region Comparing Different Kinds of Errors
 
 #endregion
 
-#region Displaying Debug Output
+#region Understanding the Default Error Handling
 
-Get-Help Write-Debug
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#erroractionpreference
+$ErrorActionPreference
 
-$DebugPreference
+# https://github.com/peetrike/PWAddins/blob/master/src/Public/Get-EnumValue.ps1
+$ErrorActionPreference.GetType() | Get-EnumValue
 
-code -r ..\DemoFiles\ch06\Test-Debug.ps1
-..\DemoFiles\ch06\Test-Debug.ps1
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-erroraction
 
-function Test-Debug {
-    [CmdletBinding()]
-    param ()
+#Requires -Version 7.3
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.4#psnativecommanduseerroractionpreference
+$PSNativeCommandUseErrorActionPreference
 
-    $PSVersionTable.PSVersion
-    if ($PSBoundParameters.ContainsKey('Debug')) {
-        $DebugPreference = 'continue'
+$Error | Get-Member
+$Error.GetType()
+Get-Member -InputObject $Error
+
+$Error.Clear()
+Get-ChildItem /doesnotexist -ErrorAction SilentlyContinue -ErrorVariable MyError
+$MyError
+
+$MyError.GetType()
+$MyError[0] -eq $Error[0]
+
+#endregion
+
+#region Detecting Errors
+
+Get-Help about_Try_Catch_Finally -ShowWindow
+
+try {
+    Get-ChildItem /doesnotexist -ErrorAction Stop
+    'Succeeded previous command'
+} catch {
+    'oops'
+}
+
+try {
+    Get-ChildItem /doesnotexist -ErrorAction Stop
+    'Succeeded previous command'
+} catch [Management.Automation.ItemNotFoundException] {
+    'a folder does not exist'
+} catch {
+    'oops'
+}
+
+try {
+    Get-ChildItem $env:windir\temp -ErrorAction Stop
+    'Succeeded previous command'
+} catch [Management.Automation.ItemNotFoundException] {
+    'a folder does not exist'
+} catch {
+    'oops'
+    $_.Exception.GetType()
+}
+
+try {
+    Get-ChildItem /doesnotexist -ErrorAction Stop
+    'Succeeded previous command'
+} catch {
+    'oops'
+} finally {
+    'always runs'
+}
+
+try {
+    Get-ChildItem . -ErrorAction Stop
+    'Succeeded previous command'
+} catch {
+    'oops'
+} finally {
+    'always runs'
+}
+
+#endregion
+
+#region Capturing Errors
+
+#endregion
+
+#endregion
+
+
+#region Lesson 2 - Handling Errors in a Script
+
+#region Identifying and Anticipating Operational Errors
+
+try {
+    $computers = Get-Content names.txt -ErrorAction Stop
+    foreach ($computer in $computers) {
+        try {
+            Get-CimInstance -Class Win32_BIOS -ComputerName $computer -ErrorAction Stop
+        } catch {
+            $computer | Out-File errorlog.txt -append
+        }
     }
-    Write-Debug -Message ('The preference variable is now {0}' -f $DebugPreference)
+} catch {
+    "Unknown error $_" | Add-Content -Path master-error-log.txt
 }
 
 
 #endregion
 
-#region Setting Breakpoints
+#region Adding Error Handling Code to a Script
 
-Get-Command -Noun PSBreakpoint
+function Get-BiosInfo {
+    param (
+            [Parameter(Mandatory)]
+            [ValidateScript({
+                Test-Path -Path $_ -PathType Leaf
+            }, ErrorMessage = 'File does not exist')]
+            [string]
+        $NameFile
+    )
 
-Get-Help Set-PSBreakpoint
-
-#endregion
-
-#region Debugging in the IDE
-
-# https://code.visualstudio.com/docs/editor/debugging
-# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode#debugging-with-visual-studio-code
-
-#endregion
-
-#endregion
-
-
-#region Lesson 2 - Analyzing and Debugging an Existing Script
-
-#region Reviewing an Existing Script
-
-#endregion
-
-#region Adding Debug Code and Breakpoints to a Script
-
-#endregion
-
-#region Testing a Script and Resolving Errors
+    foreach ($computer in Get-Content $NameFile) {
+        try {
+            Get-CimInstance -ClassName Win32_BIOS -ComputerName $computer -ErrorAction Stop
+        } catch {
+            [PSCustomObject]@{
+                Date         = [datetime]::Now
+                ComputerName = $computer
+                Error        = $_.Exception.Message
+            } | Export-Csv errorlog.csv -Encoding utf8 -Append
+        }
+    }
+}
+Get-BiosInfo -NameFile somefile.txt
 
 #endregion
 
-#endregion
-
-
-#region Lesson 3 - Writing unit tests using Pester
-
-#region Understanding Test Driven Development
-
-#endregion
-
-#region What is Pester
-
-Find-PSResource Pester -Repository PSGallery
-
-# https://pester.dev
-
-#endregion
-
-#region Writing tests
-
-Get-Help New-Fixture
-
-#endregion
-
-#region Running tests
-
-Get-Help Invoke-Pester
-
-Get-Help New-PesterConfiguration
+#region Logging Errors to a Text File
 
 #endregion
 
 #endregion
 
 
-#region Lab - Analyzing and Debugging an Existing Script
+#region Lesson 3 - Raising Errors in a Script
+
+#region Understanding Error stream
+
+$Error[0].GetType() | Get-TypeUrl -Invoke
+$Error[0] | Get-Member
+
+    #Requires -Version 7
+Get-Error
+
+#endregion
+
+#region Raising terminating errors
+
+Get-Help about_Throw -ShowWindow
+
+function MyError {
+    [CmdletBinding()]
+    param ()
+
+    $myError = New-Object -TypeName Management.Automation.ErrorRecord -ArgumentList @(
+        [Management.Automation.RuntimeException] 'oops'
+        'CustomError'
+        [System.Management.Automation.ErrorCategory]::ObjectNotFound
+        Get-Process -Id $PID
+    )
+    $PSCmdlet.ThrowTerminatingError($myError)
+}
+try {
+    MyError
+    'this does not appear'
+} catch {
+    Get-Error
+}
+
+#endregion
+
+#region Raising non-terminating errors
+
+Get-Help Write-Error
+function MyError {
+    [CmdletBinding()]
+    param ()
+
+    $myError = New-Object -TypeName Management.Automation.ErrorRecord -ArgumentList @(
+        [Management.Automation.RuntimeException] 'oops'
+        'CustomError'
+        [System.Management.Automation.ErrorCategory]::ObjectNotFound
+        Get-Process -Id $PID
+    )
+    $PSCmdlet.WriteError($myError)
+}
+MyError; 'this still appears'
+Get-Error
+
+#endregion
+
+#region Using Warning stream
+
+function Invoke-Useful {
+    [CmdletBinding()]
+    param ()
+
+    Write-Warning -Message 'Something unusual happened'
+}
+
+Invoke-Useful -WarningVariable +warning -WarningAction SilentlyContinue
+$warning | Format-List * -Force
+$warning.InvocationInfo
+
+
+#endregion
+
+#endregion
+
+
+#region Lab - Handling Errors in a Script
 
 #endregion

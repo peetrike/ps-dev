@@ -3,7 +3,7 @@
         Chapter 07 samples
     .DESCRIPTION
         This file contains sample commands from course PS-Dev for
-        Chapter 07 - Using Source Control
+        Chapter 07 - Analyzing and Debugging Scripts
     .LINK
         https://github.com/peetrike/ps-dev
     .LINK
@@ -15,118 +15,107 @@ throw "You're not supposed to run the entire script"
 #endregion
 
 
-#region Lesson 1 - Understanding Source Code Management
+#region Lesson 1 - Debugging in PowerShell
 
-#region Why Source Control
+#region Understanding Debugging
 
-#endregion
+Get-Process -Id $PID | Select-Object -Property nmae, id
 
-#region Introduction to Version Control
+Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
 
-#endregion
-
-#region Source Code Management
+code -r ..\DemoFiles\ch06\Lesson1\Demo1\Step-01.ps1
 
 #endregion
 
-#region Introduction to Git
+#region Displaying Debug Output
+
+Get-Help Write-Debug
+
+$DebugPreference
+
+code -r ..\DemoFiles\ch06\Test-Debug.ps1
+..\DemoFiles\ch06\Test-Debug.ps1
+
+function Test-Debug {
+    [CmdletBinding()]
+    param ()
+
+    $PSVersionTable.PSVersion
+    if ($PSBoundParameters.ContainsKey('Debug')) {
+        $DebugPreference = 'continue'
+    }
+    Write-Debug -Message ('The preference variable is now {0}' -f $DebugPreference)
+}
+
 
 #endregion
 
-#region Git Commits
+#region Setting Breakpoints
+
+Get-Command -Noun PSBreakpoint
+
+Get-Help Set-PSBreakpoint
 
 #endregion
 
-#region Git folder structure
+#region Debugging in the IDE
 
-#endregion
-
-#region Git layers
-
-#endregion
-
-#endregion
-
-
-#region Lesson 2 - Working with Repositories
-
-#region Understanding Repositories
-
-#endregion
-
-#region Creating repository
-
-#endregion
-
-#region Managing files in staging area
-
-#endregion
-
-#region Committing changes
-
-#endregion
-
-#region Commit under the hood
-
-#endregion
-
-#region Commits by Design
-
-#endregion
-
-#region Changing changes
+# https://code.visualstudio.com/docs/editor/debugging
+# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode#debugging-with-visual-studio-code
 
 #endregion
 
 #endregion
 
 
-#region Lesson 3 - Branches and merging options
+#region Lesson 2 - Analyzing and Debugging an Existing Script
 
-#region Why Branching
-
-#endregion
-
-#region Branching process
+#region Reviewing an Existing Script
 
 #endregion
 
-#region Creating Branches
+#region Adding Debug Code and Breakpoints to a Script
 
 #endregion
 
-#region Branching solution - merge
-
-#endregion
-
-#region Branching – rebase
+#region Testing a Script and Resolving Errors
 
 #endregion
 
 #endregion
 
 
-#region Lesson 4 - Working with Remotes
+#region Lesson 3 - Writing unit tests using Pester
 
-#region Remote repositories
-
-#endregion
-
-#region Downloading changes
+#region Understanding Test Driven Development
 
 #endregion
 
-#region Uploading changes
+#region What is Pester
+
+Find-PSResource Pester -Repository PSGallery
+
+# https://pester.dev
 
 #endregion
 
-#region Pull Request Process
+#region Writing tests
+
+Get-Help New-Fixture
+
+#endregion
+
+#region Running tests
+
+Get-Help Invoke-Pester
+
+Get-Help New-PesterConfiguration
 
 #endregion
 
 #endregion
 
 
-#region Lab - Working with Git
+#region Lab - Analyzing and Debugging an Existing Script
 
 #endregion
