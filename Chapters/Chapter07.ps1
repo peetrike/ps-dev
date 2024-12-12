@@ -19,11 +19,11 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Debugging
 
-Get-Process -Id $PID | Select-Object -Property nmae, id
+Get-Process -Id $PID | Select-Object -Property name, id
 
 Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
 
-code -r ..\DemoFiles\ch06\Lesson1\Demo1\Step-01.ps1
+code -r ..\DemoFiles\ch07\Lesson1\Demo1\Step-01.ps1
 
 #endregion
 
@@ -33,8 +33,8 @@ Get-Help Write-Debug
 
 $DebugPreference
 
-code -r ..\DemoFiles\ch06\Test-Debug.ps1
-..\DemoFiles\ch06\Test-Debug.ps1
+code -r ..\DemoFiles\ch07\Test-Debug.ps1
+..\DemoFiles\ch07\Test-Debug.ps1
 
 function Test-Debug {
     [CmdletBinding()]
@@ -46,7 +46,6 @@ function Test-Debug {
     }
     Write-Debug -Message ('The preference variable is now {0}' -f $DebugPreference)
 }
-
 
 #endregion
 
@@ -88,6 +87,8 @@ Get-Help Set-PSBreakpoint
 #region Lesson 3 - Writing unit tests using Pester
 
 #region Understanding Test Driven Development
+
+# https://en.wikipedia.org/wiki/Test-driven_development
 
 #endregion
 
