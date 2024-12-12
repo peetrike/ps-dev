@@ -201,7 +201,7 @@ Get-Help Export-Csv
 
 #region Logging to Event Log
 
-# PowerShell version <= 5.1
+# PowerShell version < 6
 Get-Help Write-EventLog
 
 # https://learn.microsoft.com/dotnet/api/system.diagnostics.eventlog
@@ -232,8 +232,8 @@ Get-Help ConvertTo-Html
 
 #region Adding Basic Formatting to an HTML Page
 
-Get-Help ConvertTo-Html -Property CssUri
-Get-Help ConvertTo-Html -Property Head
+Get-Help ConvertTo-Html -Parameter CssUri
+Get-Help ConvertTo-Html -Parameter Head
 
 Find-PSResource PSWriteHtml -Repository PSGallery
 
