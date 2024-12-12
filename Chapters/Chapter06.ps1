@@ -113,15 +113,14 @@ try {
     $computers = Get-Content names.txt -ErrorAction Stop
     foreach ($computer in $computers) {
         try {
-            Get-CimInstance -Class Win32_BIOS -ComputerName $computer -ErrorAction Stop
+            Get-CimInstance -ClassName Win32_BIOS -ComputerName $computer -ErrorAction Stop
         } catch {
-            $computer | Out-File errorlog.txt -append
+            $computer | Out-File -FilePath errorlog.txt -Append
         }
     }
 } catch {
     "Unknown error $_" | Add-Content -Path master-error-log.txt
 }
-
 
 #endregion
 
@@ -229,7 +228,6 @@ function Invoke-Useful {
 Invoke-Useful -WarningVariable +warning -WarningAction SilentlyContinue
 $warning | Format-List * -Force
 $warning.InvocationInfo
-
 
 #endregion
 
