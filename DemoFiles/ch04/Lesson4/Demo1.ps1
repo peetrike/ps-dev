@@ -16,12 +16,3 @@ $xml
 $xml.rss
 $xml.rss.channel
 $xml.rss.channel | get-member Item
-
-# Display all the items from channel
-$xml.rss.channel.item
-$xml.SelectNodes('//item')
-
-# Find the PowerShell 7.5 RC announcement
-$xml.SelectNodes('//item/title')
-$xml.SelectNodes('//item') | Where-Object title -Match '7\.5'
-$xml.SelectNodes('//item[title="PowerShell 7.5 RC-1 is now available"]')
