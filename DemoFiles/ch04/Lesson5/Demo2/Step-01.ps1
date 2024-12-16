@@ -8,5 +8,5 @@ $RemoteIP = (
 $null = Invoke-WebRequest -Uri ('https://{0}' -f $RemoteName)
 
 # capture netstat output
-$netstatOutput = netstat -np tcp
+$netstatOutput = netstat -nop tcp
 $netstatOutput | Select-Object -First 10
