@@ -9,4 +9,4 @@ $null = Invoke-WebRequest -Uri ('https://{0}' -f $RemoteName)
 
 # capture netstat output
 $netstatOutput = netstat -np tcp | Select-Object -Skip 4
-$netstatOutput
+$netstatOutput | Select-Object -First 10
