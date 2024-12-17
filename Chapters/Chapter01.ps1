@@ -26,17 +26,25 @@ throw "You're not supposed to run the entire script"
 
 #region What is Integrated Development Environment
 
+# https://en.wikipedia.org/wiki/Integrated_development_environment
+
 #endregion
 
 #region IDE vs Editor
+
+# https://apps.microsoft.com/detail/9msmlrh6lzf3
 
 #endregion
 
 #region Using PowerShell ISE
 
+# https://learn.microsoft.com/powershell/scripting/windows-powershell/ise/exploring-the-windows-powershell-ise
+
 #endregion
 
 #region Why not ISE
+
+# https://learn.microsoft.com/powershell/scripting/windows-powershell/ise/introducing-the-windows-powershell-ise#support
 
 #endregion
 
@@ -47,6 +55,8 @@ throw "You're not supposed to run the entire script"
 
 #region What is VS Code
 
+# https://code.visualstudio.com/
+
 #endregion
 
 #region VS Code features
@@ -54,6 +64,9 @@ throw "You're not supposed to run the entire script"
 #endregion
 
 #region PowerShell extension in VS Code
+
+# https://code.visualstudio.com/docs/languages/powershell
+# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode
 
 #endregion
 
