@@ -68,6 +68,12 @@ function get-pipe {
 #endregion
 
 #region Creating an Advanced Function
+
+function katse {
+    [CmdletBinding()]
+    param ()
+    Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DeviceID='c:'"
+}
 function get-logicalDisk {
     [CmdletBinding()]
     param (
