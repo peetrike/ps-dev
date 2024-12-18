@@ -36,6 +36,11 @@ Remove-Module SayHello
 #region Converting a Script into a Script Module
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#myinvocation
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#pscommandpath
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#psscriptroot
+
+# https://github.com/peetrike/Examples/blob/main/src/Functions/test-autovars.ps1
+# https://github.com/peetrike/Examples/blob/main/src/Functions/test-modulevars.psm1
 
 Get-Help Export-ModuleMember
 
@@ -46,6 +51,9 @@ Get-Help Export-ModuleMember
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#manually-import-a-module
 
 Get-Help Import-Module -Parameter Name
+
+Get-Help Import-Module -Parameter Function
+Get-Help Import-Module -Parameter Alias
 
 #endregion
 
@@ -66,7 +74,7 @@ Get-Command -Noun ModuleManifest -Module Microsoft.PowerShell.Core
 
 New-ModuleManifest -Path .\myModule.psd1 -ModuleVersion 2.0 -Author $env:USERNAME
 
-Get-Command -verb update -Noun *ModuleManifest
+Get-Command -Verb update -Noun *ModuleManifest
 
 # https://learn.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest#sample-module-manifest
 
@@ -75,6 +83,8 @@ Get-Command -verb update -Noun *ModuleManifest
 #region Manifest fields that affect module loading
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#manifest-settings
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#requiredmodules
 
 #endregion
 
@@ -92,6 +102,8 @@ Get-Command -verb update -Noun *ModuleManifest
 #region Module Autoloading
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#module-autoloading
+
+# https://learn.microsoft.com/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands
 
 #endregion
 
