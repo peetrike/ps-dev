@@ -106,6 +106,15 @@ get-logicalDisk
 
 #region Understanding the Parameter Attributes
 
+function katse {
+    param ($tere, $teine)
+    "tere {0}" -f $tere
+    "teine ka: {0}" -f $teine
+}
+
+katse esimene teine
+katse -teine $env:USERNAME
+
 #endregion
 
 #region Defining a Parameter as Mandatory
@@ -113,13 +122,18 @@ get-logicalDisk
 function arvuti {
     [CmdletBinding()]
     param (
-            [Parameter(Mandatory=$true)]
+            [Parameter(Mandatory = $true)]
             [string]
         $ComputerName = $env:COMPUTERNAME
     )
 
     $ComputerName
 }
+
+arvuti
+
+$minuprotsess = Get-Process -id $PID
+arvuti $minuprotsess
 
 #endregion
 
@@ -135,12 +149,25 @@ function arvuti {
                     '
             )]
             [string]
-        $ComputerName
+        $ComputerName,
+            [parameter(ValueFromPipeline)]
+        $teine
     )
 
     $ComputerName
 }
 
+# this is the same
+function arvuti {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true,HelpMessage = 'Computer name to connect to and something else')][string]$ComputerName,
+        [parameter(ValueFromPipeline)]
+        $teine
+    )
+
+    $ComputerName
+}
 
 #endregion
 
@@ -279,6 +306,10 @@ function vastus {
 
 #region Lab B - Defining Parameter Attributes and Input Validation
 
+# Review Question: When might you use a default parameter value instead of
+#                  making the parameter mandatory?
+# https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Clean-ModuleVersion.ps1
+
 #endregion
 
 
@@ -286,12 +317,26 @@ function vastus {
 
 #region Understanding Functions That Accept Pipeline Input
 
+# ByValue
+Get-Help Set-ADUser -Parameter Identity
+Get-Help Stop-Service -Parameter InputObject
+
+Get-Help Stop-Service -Parameter Name
+'winrm' | Stop-Service -WhatIf
+
+#ByPropertyName
+Get-Help Stop-Service -Parameter Name
+[pscustomobject] @{
+    Name = 'winrm'
+} | Stop-Service -WhatIf
+
 #endregion
 
 #region Understanding Pipeline Parameter Binding
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/11%20Pipeline%20Input.ps1
 
+# here we have the same problem
 function nimed {
     [CmdletBinding()]
     param (
@@ -303,6 +348,85 @@ function nimed {
     $Nimi
 }
 
+function nimed {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromPipeline)]
+        [string]
+        $Nimi
+    )
+    begin {}
+    process {}
+    end {
+        $Nimi
+    }
+}
+
+# lets fix it
+function nimed {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromPipeline)]
+        [string]
+        $Nimi
+    )
+    begin {}
+    process {
+        $Nimi
+    }
+    end {}
+}
+
+# several ByValue parameters
+function nimed {
+    [CmdletBinding()]
+    param (
+            [Parameter(ValueFromPipeline)]
+            [string]
+        $Nimi,
+            [Parameter(ValueFromPipeline)]
+            [System.Diagnostics.Process]
+        $Process
+    )
+    begin {}
+    process {
+        $Nimi
+        'protsess on {0}' -f $Process
+    }
+    end {}
+}
+
+$minuprotsess = Get-Process -id $PID
+'nimi' | nimed
+$minuprotsess | nimed
+
+function nimed {
+    [CmdletBinding()]
+    param (
+            [Parameter(
+                ParameterSetName = 'ByNimi',
+                ValueFromPipeline
+            )]
+            [string]
+        $Nimi,
+            [Parameter(
+                ParameterSetName = 'ByProcess',
+                ValueFromPipeline
+            )]
+            [System.Diagnostics.Process]
+        $Process
+    )
+    begin {}
+    process {
+        $Nimi
+        'protsess on {0}' -f $Process
+    }
+    end {}
+}
+'nimi' | nimed
+$minuprotsess | nimed
+
+# ByPropertyName
 # https://github.com/peetrike/Examples/blob/main/CommandLine/12%20Pipeline%20Objects.ps1
 
 #endregion
@@ -329,6 +453,7 @@ function nimed {
 }
 
 'first', 'second', 'third' | nimed
+nimed -Nimi 'first', 'second', 'third'
 
 function nimed {
     [CmdletBinding()]
@@ -361,6 +486,9 @@ nimed -Nimi 'first', 'second', 'third'
 
 #region Lab C - Writing Functions That Accept Pipeline Input
 
+# Review Question: What parameters should accept pipeline input?
+# https://peterwawa.wordpress.com/2013/04/09/kasutajakontode-loomine-domeenis/
+
 #endregion
 
 
@@ -370,6 +498,10 @@ nimed -Nimi 'first', 'second', 'third'
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_objects
 Get-Help about_objects -ShowWindow
+
+Get-Date ; Get-ChildItem
+
+& {Get-Date ; Get-ChildItem} | Get-Member
 
 #endregion
 
@@ -389,6 +521,24 @@ Get-Help about_objects -ShowWindow
 
 
 #region Lab D - Producing Complex Function Output
+
+# Review Question: What would you do if you wanted the output of a function to be formatted differently or to use specific units of measure?
+Get-Volume
+Get-Volume | Select-Object DriveLetter, Size, SizeRemaining
+(get-volume)[0].GetType()
+(get-volume)[0].psobject.TypeNames
+
+Get-FormatData -TypeName *MSFT_Volume
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Headers
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Headers[-2..-1]
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-2..-1]
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-2..-1].DisplayEntry
+(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-1].DisplayEntry.Value
+
 
 #endregion
 
@@ -411,9 +561,14 @@ function tere {
 
 Get-Help tere
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help
+
 #endregion
 
 #region Adding Comment-Based Help to a Function
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help#comment-based-help-keywords
+
 function tere {
     <#
         .SYNOPSIS
@@ -427,6 +582,10 @@ function tere {
             tere
 
             This example greets the currently logged on user.
+        .LINK
+            https://github.com/peetrike/ps-dev
+        .LINK
+            get-command
     #>
     [OutputType([string])]
     [Alias('Hello')]
@@ -445,6 +604,12 @@ Get-Help tere -Full
 #endregion
 
 #region Adding External Help to a Function
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help#externalhelp
+
+# https://learn.microsoft.com/powershell/scripting/developer/help/writing-help-for-windows-powershell-cmdlets
+
+Find-Module platyPS -Repository PSGallery
 
 #endregion
 
@@ -473,6 +638,8 @@ $ConfirmPreference = 'Medium'
 Remove-Item katse.txt
 Remove-Item katse.txt -Confirm:$false
 $ConfirmPreference = 'High'
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#risk-management-parameter-descriptions
 
 #endregion
 
