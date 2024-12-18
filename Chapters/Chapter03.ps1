@@ -152,9 +152,13 @@ Get-Command Update-PSResource
 
 Get-Help Publish-Module -ShowWindow
 
+# https://learn.microsoft.com/powershell/utility-modules/secretmanagement/overview
+
 #endregion
 
 #region Publishing Module using PSResourceGet
+
+# https://devblogs.microsoft.com/powershell/psresourceget-is-generally-available/
 
 Get-Help Publish-PSResource -ShowWindow
 
