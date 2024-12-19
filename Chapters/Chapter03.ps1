@@ -99,11 +99,27 @@ Get-Command -Verb update -Noun *ModuleManifest
 
 #region Lesson 3 - Installing Modules
 
-#region Module Autoloading
+#region Module AutoLoading
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#module-autoloading
 
+Remove-Module Microsoft.PowerShell.Security
+Get-Command Get-Credential
+Get-Module Microsoft.PowerShell.Security
+
+Remove-Module Microsoft.PowerShell.Security
+Get-Help Get-Credential
+Get-Module Microsoft.PowerShell.Security
+
 # https://learn.microsoft.com/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands
+Find-Module ModuleBuilder
+    # in Windows PowerShell
+Remove-Module ModuleBuilder
+Import-Module ModuleBuilder
+
+Get-Help Get-Verb -ShowWindow
+
+# also tab completion triggers AutoLoading
 
 #endregion
 
@@ -129,11 +145,23 @@ Get-ExperimentalFeature -Name PSModuleAutoLoadSkipOfflineFiles
 
 # https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Update-PowerShellGet.ps1
 
+Get-PSRepository
+Get-PSResourceRepository
+
+Get-Command Register-PSRepository
+Get-Command Register-PSresourceRepository
+
+Get-Command Find-Module
+Get-Command Find-PSResource
+
 Get-Command Install-Module
 Get-Command Install-PSResource
 
 Get-Command Update-Module
 Get-Command Update-PSResource
+
+# for PowerShellGet module
+# https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Update-PowerShellGet.ps1
 
 #endregion
 
