@@ -525,8 +525,8 @@ Get-Date ; Get-ChildItem
 # Review Question: What would you do if you wanted the output of a function to be formatted differently or to use specific units of measure?
 Get-Volume
 Get-Volume | Select-Object DriveLetter, Size, SizeRemaining
-(get-volume)[0].GetType()
-(get-volume)[0].psobject.TypeNames
+(Get-Volume)[0].GetType()
+(Get-Volume)[0].psobject.TypeNames
 
 Get-FormatData -TypeName *MSFT_Volume
 (Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition
