@@ -30,6 +30,8 @@ Find-Type StringBuilder | Find-Member
 Find-Type WebRequest
 Find-Type WebRequest | Find-Member
 
+Find-Member MessageBox
+
 #endregion
 
 #region .NET documentation
@@ -57,9 +59,13 @@ Find-Member PI
 
 #region Comparing the .NET syntax to command syntax
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_methods
+
 #endregion
 
 #region Instantiating classes and using instance members
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_object_creation
 
 $Service = Get-Service -Name BITS
 $Service.GetType()
@@ -233,21 +239,40 @@ Invoke-RestMethod -Uri https://official-joke-api.appspot.com/jokes/ten
 
 #region Understanding XML
 
+# http://www.w3.org/TR/xml
+
 #endregion
 
 #region Reading XML data into memory
+
+Find-Type XmlDocument
+Find-Type XmlDocument | Find-Member Load*
+Find-Type XmlDocument | Get-TypeUrl -Invoke
 
 #endregion
 
 #region Searching for XML elements
 
+# http://www.w3.org/TR/xpath
+
+Find-Type XmlDocument | Find-Member SelectNodes
+Find-Type XmlDocument | Find-Member SelectSingleNode
+
 #endregion
 
 #region Manipulating XML nodes
 
+Find-Type XmlDocument | Find-Member CreateElement
+Find-Type XmlElement | Find-Member AppendChild
+
+Find-Type XmlNode | Find-Member RemoveChild
+
 #endregion
 
 #region Manipulating XML attributes
+
+Find-Type XmlDocument | Find-Member CreateAttribute
+Find-Type XmlElement | Find-Member SetAttributeNode
 
 #endregion
 
@@ -264,11 +289,14 @@ Invoke-RestMethod -Uri https://official-joke-api.appspot.com/jokes/ten
 #region Introduction to regular expressions
 
 Get-Help about_Regular_Expressions -ShowWindow
+Get-Help Select-String -ShowWindow
+Find-Type Regex | Find-Member
 
 #endregion
 
 #region Basic delimited parsing with ConvertFrom-String
 
+# Windows PowerShell 5.x
 Get-Help ConvertFrom-String -ShowWindow
 
 #endregion
@@ -282,6 +310,9 @@ Get-Help ConvertFrom-String -Parameter UpdateTemplate
 #endregion
 
 #region Manipulating strings with Convert-String
+
+# Windows PowerShell 5.x
+Get-Help Convert-String -ShowWindow
 
 #endregion
 
