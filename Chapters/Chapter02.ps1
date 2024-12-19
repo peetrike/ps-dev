@@ -307,7 +307,7 @@ function vastus {
 #region Lab B - Defining Parameter Attributes and Input Validation
 
 # Review Question: When might you use a default parameter value instead of
-#                  making the parameter mandatory?
+# making the parameter mandatory?
 # https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Clean-ModuleVersion.ps1
 
 #endregion
@@ -522,22 +522,23 @@ Get-Date ; Get-ChildItem
 
 #region Lab D - Producing Complex Function Output
 
-# Review Question: What would you do if you wanted the output of a function to be formatted differently or to use specific units of measure?
+# Review Question: What would you do if you wanted the output of a function to be
+# formatted differently or to use specific units of measure?
 Get-Volume
 Get-Volume | Select-Object DriveLetter, Size, SizeRemaining
 (Get-Volume)[0].GetType()
 (Get-Volume)[0].psobject.TypeNames
 
-Get-FormatData -TypeName *MSFT_Volume
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Headers
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Headers[-2..-1]
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-2..-1]
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-2..-1].DisplayEntry
-(Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-1].DisplayEntry.Value
+Get-FormatData -TypeName *MSFT_Volume | Tee-Object -Variable FormatData
+$FormatData.FormatViewDefinition
+$FormatData.FormatViewDefinition.Control
+$FormatData.FormatViewDefinition.Control.Headers
+$FormatData.FormatViewDefinition.Control.Headers[-2..-1]
+$FormatData.FormatViewDefinition.Control.Rows
+$FormatData.FormatViewDefinition.Control.Rows.Columns
+$FormatData.FormatViewDefinition.Control.Rows.Columns[-2..-1]
+$FormatData.FormatViewDefinition.Control.Rows.Columns[-2..-1].DisplayEntry
+$FormatData.FormatViewDefinition.Control.Rows.Columns[-1].DisplayEntry.Value
 
 #endregion
 
