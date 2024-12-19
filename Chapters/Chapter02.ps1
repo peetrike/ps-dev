@@ -539,7 +539,6 @@ Get-FormatData -TypeName *MSFT_Volume
 (Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-2..-1].DisplayEntry
 (Get-FormatData -TypeName *MSFT_Volume).FormatViewDefinition.Control.Rows.Columns[-1].DisplayEntry.Value
 
-
 #endregion
 
 
