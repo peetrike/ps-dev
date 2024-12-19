@@ -150,6 +150,23 @@ Get-Command -Noun PSResource
 
 #region Writing an inline C# code
 
+Add-Type -TypeDefinition @'
+    using System;
+    using System.Runtime.InteropServices;
+
+    public class User32 {
+        [DllImport("user32.dll")]
+        public static extern int MessageBox(
+            IntPtr WindowHandle,
+            string Message,
+            string Caption,
+            int Type);
+    }
+'@
+
+$IconInformation = 0x40
+[User32]::MessageBox(0, 'A short message', 'Title', $IconInformation)
+
 #endregion
 
 #region Using PowerShell Classes
@@ -166,24 +183,44 @@ Get-Command -Noun PSResource
 
 #region What is REST API
 
+# https://en.wikipedia.org/wiki/REST
+
+# https://restfulapi.net/
+
+
 #endregion
 
 #region The REST API documentation
+
+# https://spec.openapis.org/oas/latest.html
+
+# https://reqres.in/api-docs/
 
 #endregion
 
 #region REST API Syntax
 
+# https://restfulapi.net/resource-naming/
+
+# https://restful-api.dev/
+
 #endregion
 
 #region Invoking REST API methods by using PowerShell
 
-#endregion
+Get-Help Invoke-RestMethod -ShowWindow
+Get-Help Invoke-WebRequest -ShowWindow
+
+Invoke-RestMethod -Uri https://ipinfo.io/json
+Invoke-RestMethod -Uri https://official-joke-api.appspot.com/jokes/random
+Invoke-RestMethod -Uri https://official-joke-api.appspot.com/jokes/ten
 
 #endregion
 
+#endregion
 
-#region Lab B - Using .NET in PowerShell
+
+#region Lab B - Using REST API in PowerShell
 
 #endregion
 
