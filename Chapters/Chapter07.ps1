@@ -19,7 +19,7 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Debugging
 
-Get-Process -Id $PID | Select-Object -Property name, id
+Get-Process -Id $PID | Select-Object -Property name, ProcessId
 
 Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
 

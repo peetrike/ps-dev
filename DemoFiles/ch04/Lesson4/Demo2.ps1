@@ -12,7 +12,7 @@ $xml.SelectNodes('//item')
 
 # Find the PowerShell 7.5 RC announcement
 $xml.SelectNodes('//item/title')
-$xml.SelectNodes('//item') | Where-Object title -Match '7\.5'
+$xml.SelectNodes('//item') | Where-Object '#text' -Match '7\.5'
 $xml.SelectNodes('//item[contains(title, "7.5")]')
 
 # Find the creator of PowerShell 7.5 RC announcement

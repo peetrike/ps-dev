@@ -206,6 +206,8 @@ Get-Help Write-EventLog
 
 # https://learn.microsoft.com/dotnet/api/system.diagnostics.eventlog
 
+Find-Module psframework
+
 #endregion
 
 #endregion
