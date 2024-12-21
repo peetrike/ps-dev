@@ -26,17 +26,25 @@ throw "You're not supposed to run the entire script"
 
 #region What is Integrated Development Environment
 
+# https://en.wikipedia.org/wiki/Integrated_development_environment
+
 #endregion
 
 #region IDE vs Editor
+
+# https://apps.microsoft.com/detail/9msmlrh6lzf3
 
 #endregion
 
 #region Using PowerShell ISE
 
+# https://learn.microsoft.com/powershell/scripting/windows-powershell/ise/exploring-the-windows-powershell-ise
+
 #endregion
 
 #region Why not ISE
+
+# https://learn.microsoft.com/powershell/scripting/windows-powershell/ise/introducing-the-windows-powershell-ise#support
 
 #endregion
 
@@ -47,6 +55,8 @@ throw "You're not supposed to run the entire script"
 
 #region What is VS Code
 
+# https://code.visualstudio.com/
+
 #endregion
 
 #region VS Code features
@@ -55,9 +65,15 @@ throw "You're not supposed to run the entire script"
 
 #region PowerShell extension in VS Code
 
+# https://code.visualstudio.com/docs/languages/powershell
+# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode
+
 #endregion
 
 #region Configuring VS Code for PowerShell
+
+# https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/using-vscode#configuration-settings-for-visual-studio-code
+# https://code.visualstudio.com/docs/languages/powershell#_powershell-extension-settings
 
 #endregion
 
@@ -83,26 +99,40 @@ throw "You're not supposed to run the entire script"
 
 # https://notepad-plus-plus.org/
 
-
 #endregion
 
 #region Static code analysis tools
+
+# https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/overview
 
 #endregion
 
 #region Scaffolding tools
 
+# https://github.com/PowerShellOrg/Plaster/blob/master/docs/en-US/about_Plaster.help.md
+# https://psframework.org/documentation/documents/psmoduledevelopment/templates.html
+
 #endregion
 
 #region Build Automation tools
+
+# https://psake.dev/docs/intro
+# https://github.com/nightroman/Invoke-Build/wiki
+# https://github.com/JustinGrote/Press
 
 #endregion
 
 #region Help generation tools
 
+# https://learn.microsoft.com/powershell/utility-modules/platyps/overview
+
 #endregion
 
 #region Dependency management tools
+
+# https://github.com/RamblingCookieMonster/PSDepend
+# https://github.com/Jaykul/RequiredModules
+# https://github.com/JustinGrote/ModuleFast
 
 #endregion
 
