@@ -385,6 +385,8 @@ names -Name 'first', 'second', 'third'
 
 #region Understanding the Advantages of Object Output
 
+# https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Output-and-Formatting.md#only-output-one-kind-of-thing-at-a-time
+
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_objects
 Get-Help about_objects -ShowWindow
 
@@ -431,6 +433,8 @@ $properties['PSTypeName'] = 'my.custom.type'
 $data = [PSCustomObject] $properties
 $data | Get-Member
 $data.psobject.TypeNames
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_functions_outputtypeattribute
 
 #endregion
 

@@ -19,13 +19,19 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Tools
 
+https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-01-decide-whether-youre-coding-a-tool-or-a-controller-script
+
 #endregion
 
 #region Understanding Controller Scripts
 
+https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-07-controllers-should-typically-output-formatted-data
+
 #endregion
 
 #region Combining Tools and Controller Scripts
+
+# https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Language-Interop-and-.NET.md#ver-02-document-the-version-of-powershell-the-script-was-written-for
 
 Get-Help about_Requires -ShowWindow
 
