@@ -68,7 +68,8 @@ function get-pipe {
 #endregion
 
 #region Creating an Advanced Function
-function get-logicalDisk {
+
+function Get-LogicalDisk {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [string] $Drive
@@ -77,8 +78,12 @@ function get-logicalDisk {
     Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DeviceID='$Drive'"
 }
 
-get-logicalDisk -Drive 'C:'
-get-logicalDisk
+Get-LogicalDisk -Drive 'C:'
+Get-LogicalDisk
+
+Get-Verb
+
+# https://learn.microsoft.com/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands
 
 #endregion
 
@@ -96,18 +101,27 @@ get-logicalDisk
 
 #region Lesson 3 - Defining Parameter Attributes and Input Validation
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#args
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#psboundparameters
 
 #region Understanding the Parameter Attributes
+function greeting {
+    param ($Name, $Second)
+    'Hello {0}' -f $Name
+    'Second parameter: {0}' -f $Second
+}
+
+greeting $env:USERNAME $env:COMPUTERNAME
+greeting -Second $env:USERNAME
 
 #endregion
 
 #region Defining a Parameter as Mandatory
 
-function arvuti {
+function computer {
     [CmdletBinding()]
     param (
-            [Parameter(Mandatory=$true)]
+            [Parameter(Mandatory = $true)]
             [string]
         $ComputerName = $env:COMPUTERNAME
     )
@@ -115,18 +129,18 @@ function arvuti {
     $ComputerName
 }
 
+computer
+
 #endregion
 
 #region Defining a Parameter Help Message
-function arvuti {
+
+function computer {
     [CmdletBinding()]
     param (
             [Parameter(
                 Mandatory = $true,
-                HelpMessage = '
-                    Computer name to connect to
-                    and something else
-                    '
+                HelpMessage = 'Computer name to connect to'
             )]
             [string]
         $ComputerName
@@ -135,20 +149,19 @@ function arvuti {
     $ComputerName
 }
 
+computer
 
 #endregion
 
 #region Defining Parameter Name Aliases
-function arvuti {
+
+function computer {
     [CmdletBinding()]
     [Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
-                HelpMessage = '
-                    Computer name to connect to
-                    and something else
-                    '
+                HelpMessage = 'Computer name to connect to'
             )]
             [Alias(
                 'CN',
@@ -164,22 +177,21 @@ function arvuti {
     $ComputerName
 }
 
+computer
+
 #endregion
 
 #region Understanding Parameter Input Validation
 
 # https://github.com/peetrike/Examples/tree/main/CommandLine
 
-function arvuti {
+function computer {
     [CmdletBinding()]
     [Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
-                HelpMessage = '
-                    Computer name to connect to
-                    and something else
-                    '
+                HelpMessage = 'Computer name to connect to'
             )]
             [Alias(
                 'CN',
@@ -196,16 +208,13 @@ function arvuti {
     $ComputerName
 }
 
-function arvuti {
+function computer {
     [CmdletBinding()]
     [Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
-                HelpMessage = '
-                    Computer name to connect to
-                    and something else
-                    '
+                HelpMessage = 'Computer name to connect to'
             )]
             [Alias(
                 'CN',
@@ -218,7 +227,7 @@ function arvuti {
                 if ($_ -match '^SRV-') {
                     $true
                 } else {
-                    Throw 'The ComputerName must start with Srv-'
+                    throw 'The ComputerName must start with Srv-'
                 }
             })]
             [string]
@@ -229,16 +238,13 @@ function arvuti {
 }
 
 #Requires -Version 6
-function arvuti {
+function computer {
     [CmdletBinding()]
     [Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
-                HelpMessage = '
-                    Computer name to connect to
-                    and something else
-                    '
+                HelpMessage = 'Computer name to connect to'
             )]
             [Alias(
                 'CN',
@@ -255,15 +261,15 @@ function arvuti {
     $ComputerName
 }
 
-function vastus {
+function answer {
     [CmdletBinding()]
     param (
-            [ValidateSet('Jah', 'Ei')]
+            [ValidateSet('Yes', 'No')]
             [string]
-        $vastus
+        $Answer
     )
 
-    $vastus
+    $Answer
 }
 
 #endregion
@@ -280,21 +286,34 @@ function vastus {
 
 #region Understanding Functions That Accept Pipeline Input
 
+# ByValue
+Get-Help Set-ADUser -Parameter Identity
+Get-Help Stop-Service -Parameter InputObject
+
+Get-Help Stop-Service -Parameter Name
+'winrm' | Stop-Service -WhatIf
+
+#ByPropertyName
+Get-Help Stop-Service -Parameter Name
+[pscustomobject] @{
+    Name = 'winrm'
+} | Stop-Service -WhatIf
+
 #endregion
 
 #region Understanding Pipeline Parameter Binding
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/11%20Pipeline%20Input.ps1
 
-function nimed {
+function names {
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline)]
         [string]
-        $Nimi
+        $Name
     )
 
-    $Nimi
+    $Name
 }
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/12%20Pipeline%20Objects.ps1
@@ -303,50 +322,51 @@ function nimed {
 
 #region Comparing Pipeline Execution and Parameter Execution
 
-function nimed {
+function names {
     [CmdletBinding()]
     param (
             [Parameter(ValueFromPipeline)]
             [string]
-        $Nimi
+        $Name
     )
 
     end {
-        Write-Warning ('lõpetasime, Nimi on: {0}' -f $Nimi)
+        Write-Warning ('End block, Name is: {0}' -f $Name)
     }
     begin {
-        Write-Warning ('alustame, Nimi on: {0}' -f $Nimi)
+        Write-Warning ('Begin block, Name is: {0}' -f $Name)
     }
     process {
-        $Nimi
+        $Name
     }
 }
 
-'first', 'second', 'third' | nimed
+'first', 'second', 'third' | names
+names -Name 'first', 'second', 'third'
 
-function nimed {
+function names {
     [CmdletBinding()]
     param (
             [Parameter(ValueFromPipeline)]
             [string[]]
-        $Nimi
+        $Name
     )
 
     end {
-        Write-Warning ('lõpetasime, Nimi on: {0}' -f $Nimi -join ',')
+        Write-Warning ('End block, Name is: {0}' -f $Name -join ',')
     }
     begin {
-        Write-Warning ('alustame, Nimi on: {0}' -f $Nimi)
+        Write-Warning ('Begin block, Name is: {0}' -f $Name -join ',')
     }
     process {
-        foreach ($n in $nimi) {
+        foreach ($n in $Name) {
             $n
         }
     }
 }
 
-nimed -Nimi 'first', 'second', 'third'
-'first', 'second', 'third' | nimed
+names -Name 'first', 'second', 'third'
+'first', 'second', 'third' | names
 
 #endregion
 
@@ -354,6 +374,9 @@ nimed -Nimi 'first', 'second', 'third'
 
 
 #region Lab C - Writing Functions That Accept Pipeline Input
+
+# Review Question: What parameters should accept pipeline input?
+# https://peterwawa.wordpress.com/2013/04/09/kasutajakontode-loomine-domeenis/
 
 #endregion
 
@@ -365,17 +388,49 @@ nimed -Nimi 'first', 'second', 'third'
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_objects
 Get-Help about_objects -ShowWindow
 
+Get-Date ; Get-ChildItem
+& { Get-Date ; Get-ChildItem } | Get-Member
+
 #endregion
 
 #region Creating the Properties for a Custom Object
+
+$os = Get-CimInstance -ClassName Win32_OperatingSystem
+$cs = Get-CimInstance -ClassName Win32_ComputerSystem
+
+$properties = @{
+    'ComputerName' = $env:COMPUTERNAME
+    'OSVersion'    = $os.Version
+    'OSBuild'      = $os.BuildNumber
+    'Manufacturer' = $cs.Manufacturer
+    'Model'        = $cs.Model
+}
 
 #endregion
 
 #region Creating and Producing a Custom Object
 
+$object = New-Object -TypeName PSObject -Property $properties
+Write-Output $object
+
+[PSCustomObject] $properties
+
+[PSCustomObject] @{
+    Name = 'MyData'
+    GUID = New-Guid
+}
+
 #endregion
 
 #region Adding Custom TypeName to Object
+
+$object.psobject.TypeNames.Insert(0, 'my.type')
+$object.GetType()
+
+$properties['PSTypeName'] = 'my.custom.type'
+$data = [PSCustomObject] $properties
+$data | Get-Member
+$data.psobject.TypeNames
 
 #endregion
 
@@ -391,24 +446,31 @@ Get-Help about_objects -ShowWindow
 
 #region Understanding Comment-Based Help
 
-function tere {
+function greetings {
     [Alias('Hello')]
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline)]
         [string]
-        $Nimi = $env:USERNAME
+        $Name = $env:USERNAME
     )
 
-    'Tere {0}' -f $Nimi
+    process {
+        'Hello {0}' -f $Name
+    }
 }
 
-Get-Help tere
+Get-Help Hello -Full
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help
 
 #endregion
 
 #region Adding Comment-Based Help to a Function
-function tere {
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help#comment-based-help-keywords
+
+function greeting {
     <#
         .SYNOPSIS
             Prints greeting
@@ -416,11 +478,11 @@ function tere {
             This function greets whoever given as parameter.  If no parameter
             value is provided, the currently logged on user will be greeted.
         .EXAMPLE
-            tere -Nimi Paul
+            greeting -Name Paul
         .EXAMPLE
-            tere
+            hello
 
-            This example greets the currently logged on user.
+            This example uses function alias to greet the currently logged on user.
     #>
     [OutputType([string])]
     [Alias('Hello')]
@@ -428,17 +490,22 @@ function tere {
     param (
             [string]
             # The name of the person to greet
-        $Nimi = $env:USERNAME
+        $Name = $env:USERNAME
     )
 
-    'Tere {0}' -f $Nimi
+    'Hello {0}' -f $Name
 }
 
-Get-Help tere -Full
+Get-Help greeting -Full
 
 #endregion
 
 #region Adding External Help to a Function
+
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help#externalhelp
+# https://learn.microsoft.com/powershell/scripting/developer/help/writing-help-for-windows-powershell-cmdlets
+
+Find-Module platyPS -Repository PSGallery
 
 #endregion
 
@@ -509,7 +576,6 @@ function Remove-File {
 New-Item test.txt -ItemType File
 Get-Item test.txt | Remove-File -Confirm
 
-
 #endregion
 
 #region Adding Support for –WhatIf and –Confirm
@@ -524,9 +590,7 @@ function Set-Something {
     }
 }
 
-
 # https://github.com/peetrike/Examples/blob/main/CommandLine/14%20Whatif%20and%20Confirm.ps1
-
 # https://learn.microsoft.com/dotnet/api/system.management.automation.cmdlet.shouldprocess
 
 # https://github.com/peetrike/scripts/blob/master/Send-PasswordNotification/Send-PasswordNotification.ps1#L219
