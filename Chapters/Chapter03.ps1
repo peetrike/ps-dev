@@ -36,6 +36,11 @@ Remove-Module SayHello
 #region Converting a Script into a Script Module
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#myinvocation
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#pscommandpath
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#psscriptroot
+
+# https://github.com/peetrike/Examples/blob/main/src/Functions/test-autovars.ps1
+# https://github.com/peetrike/Examples/blob/main/src/Functions/test-modulevars.psm1
 
 Get-Help Export-ModuleMember
 
@@ -46,6 +51,9 @@ Get-Help Export-ModuleMember
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#manually-import-a-module
 
 Get-Help Import-Module -Parameter Name
+Get-Help Import-Module -Parameter Function
+Get-Help Import-Module -Parameter Alias
+Get-Help Import-Module -Parameter Variable
 
 #endregion
 
@@ -66,7 +74,7 @@ Get-Command -Noun ModuleManifest -Module Microsoft.PowerShell.Core
 
 New-ModuleManifest -Path .\myModule.psd1 -ModuleVersion 2.0 -Author $env:USERNAME
 
-Get-Command -verb update -Noun *ModuleManifest
+Get-Command -verb Update -Noun *ModuleManifest
 
 # https://learn.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest#sample-module-manifest
 
@@ -75,6 +83,7 @@ Get-Command -verb update -Noun *ModuleManifest
 #region Manifest fields that affect module loading
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#manifest-settings
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests#requiredmodules
 
 #endregion
 
@@ -89,9 +98,27 @@ Get-Command -verb update -Noun *ModuleManifest
 
 #region Lesson 3 - Installing Modules
 
-#region Module Autoloading
+#region Module AutoLoading
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_modules#module-autoloading
+
+Remove-Module Microsoft.PowerShell.Security
+Get-Command Get-Credential
+Get-Module Microsoft.PowerShell.Security
+
+Remove-Module Microsoft.PowerShell.Security
+Get-Help Get-Credential
+Get-Module Microsoft.PowerShell.Security
+
+Get-Module Microsoft.PowerShell.Security -ListAvailable | Format-List ExportedCmdlets
+
+Get-Command BetterCredentials\Get-Credential
+Get-Command Get-Credential -All
+
+Find-Module ModuleBuilder
+    # in Windows PowerShell
+Remove-Module ModuleBuilder
+Import-Module ModuleBuilder
 
 #endregion
 
@@ -108,7 +135,6 @@ $env:PSModulePath -split [IO.Path]::PathSeparator
 #Requires -Version 7.4
 Get-ExperimentalFeature -Name PSModuleAutoLoadSkipOfflineFiles
 
-
 #endregion
 
 #region Installing Modules
@@ -117,11 +143,20 @@ Get-ExperimentalFeature -Name PSModuleAutoLoadSkipOfflineFiles
 
 # https://github.com/peetrike/scripts/blob/master/src/ComputerManagement/PowerShell/Update-PowerShellGet.ps1
 
+Get-Command Find-Module
+Get-Command Find-PSResource
+
 Get-Command Install-Module
 Get-Command Install-PSResource
 
 Get-Command Update-Module
 Get-Command Update-PSResource
+
+Get-PSRepository
+Get-PSResourceRepository
+
+Get-Command Register-PSRepository
+Get-Command Register-PSresourceRepository
 
 #endregion
 
@@ -140,9 +175,13 @@ Get-Command Update-PSResource
 
 Get-Help Publish-Module -ShowWindow
 
+# https://learn.microsoft.com/powershell/utility-modules/secretmanagement/overview
+
 #endregion
 
 #region Publishing Module using PSResourceGet
+
+# https://devblogs.microsoft.com/powershell/psresourceget-is-generally-available/
 
 Get-Help Publish-PSResource -ShowWindow
 
