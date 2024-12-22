@@ -54,8 +54,10 @@ Get-Help Write-Progress
 Get-Help Write-Progress -Parameter SecondsRemaining
 Get-Help Write-Progress -Parameter PercentComplete
 
-Write-Progress -Activity 'teeme' -PercentComplete 30 -id 1 -ProgressAction SilentlyContinue
-Start-Sleep -Seconds 3
+& {
+    Write-Progress -Activity 'teeme' -SecondsRemaining 3 -id 1
+    Start-Sleep -Seconds 3
+}
 
 foreach ( $i in 1..10 ) {
     Write-Progress -Id 0 "Step $i" -PercentComplete ($i * 10)
@@ -68,21 +70,27 @@ foreach ( $i in 1..10 ) {
     }
 }
 
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#progresspreference
 $ProgressPreference
 
 #Requires -version 7.4
-
-# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-progressaction
-
-Invoke-WebRequest -uri ... -ProgressAction SilentlyContinue
-
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-progressaction
+
+$url = 'https://raw.githubusercontent.com/PowerShell/PowerShell/refs/heads/master/assets/Chibi_Avatar.svg'
+$localFile = '{0}.svg' -f (New-TemporaryFile).FullName
+Invoke-WebRequest -Uri $url -OutFile $localFile -ProgressAction SilentlyContinue
 
 #endregion
 
 #region Using Verbose Output
 
 Get-Help Write-Verbose
+
+Write-Verbose -Message 'Tere' -Verbose
+
+$Host.PrivateData | Select-Object verbose*
+#Requires -Version 7.2
+$PSStyle.Formatting
 
 #endregion
 
@@ -93,7 +101,7 @@ Get-Help Write-Host -Parameter *color
 
 Get-Help Write-Information
 
-#Requires -version 7.2
+#Requires -Version 7.2
 $PSStyle
 Get-Help about_ANSI_Terminals -ShowWindow
 Find-PSResource PSStyle -Repository PSGallery
@@ -115,6 +123,10 @@ $Password = Read-Host 'Enter the password' -AsSecureString
 # https://github.com/peetrike/Examples/blob/main/src/Gui/Read-Choice.ps1
 # https://learn.microsoft.com/dotnet/api/system.management.automation.host.pshostuserinterface.promptforchoice
 
+$choice = @('&yes', '&no')
+$answer = $Host.UI.PromptForChoice('Make a choice', 'Should we continue?', $choice, 1)
+$choice[$answer]
+
 #endregion
 
 #region Using Get-Credential
@@ -122,7 +134,7 @@ $Password = Read-Host 'Enter the password' -AsSecureString
 # https://learn.microsoft.com/powershell/scripting/learn/deep-dives/add-credentials-to-powershell-functions
 
 Get-Help Get-Credential
-Get-Module BetterCredentials -ListAvailable
+Find-Module BetterCredentials -Repository PSGallery
 
 function Use-Credential {
     param(
@@ -145,14 +157,22 @@ Get-Help Out-GridView
 Get-Help Out-GridView -Parameter OutputMode
 Get-Help Out-GridView -Parameter PassThru
 
+Get-ChildItem Cert:\CurrentUser\My |
+    Select-Object FriendlyName, NotAfter, Subject, Thumbprint |
+    Out-GridView -OutputMode Single
+
 #endregion
 
 #region Using Text-based User Interface
 
 Find-PSResource Microsoft.PowerShell.ConsoleGuiTools -Repository PSGallery
+Find-PSResource Terminal.Gui -Repository Nuget
 
 $ModulePath = (Get-Module Microsoft.PowerShell.ConsoleGuiTools -ListAvailable)[0].ModuleBase
 Get-ChildItem -path $ModulePath -Filter *.dll
+
+code -r .\Show-Tui2.ps1
+.\Show-Tui2.ps1
 
 # https://gui-cs.github.io/Terminal.Gui/docs/overview.html
 
@@ -233,6 +253,9 @@ Get-Command Add-Content
 #region Converting command output to HTML
 
 Get-Help ConvertTo-Html
+
+Get-Process p* | ConvertTo-HTML | Out-File Report.html
+Invoke-Item Report.html
 
 #endregion
 
