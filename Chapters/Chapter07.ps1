@@ -19,7 +19,7 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Debugging
 
-Get-Process -Id $PID | Select-Object -Property name, id
+Get-Process -Id $PID | Select-Object -Property name, ProcessId
 
 Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType='Fixed'"
 
@@ -42,7 +42,7 @@ function Test-Debug {
 
     $PSVersionTable.PSVersion
     if ($PSBoundParameters.ContainsKey('Debug')) {
-        $DebugPreference = 'continue'
+        $DebugPreference = 'Continue'
     }
     Write-Debug -Message ('The preference variable is now {0}' -f $DebugPreference)
 }
@@ -71,13 +71,22 @@ Get-Help Set-PSBreakpoint
 
 #region Reviewing an Existing Script
 
+notepad.exe ..\DemoFiles\ch07\Lesson2\Step-01.ps1
+code -r ..\DemoFiles\ch07\Lesson2\Step-02.ps1
+
 #endregion
 
 #region Adding Debug Code and Breakpoints to a Script
 
+code -r ..\DemoFiles\ch07\Lesson2\Step-03.ps1
+
 #endregion
 
 #region Testing a Script and Resolving Errors
+
+code -r ..\DemoFiles\ch07\Lesson2\Step-04.ps1
+code -r ..\DemoFiles\ch07\Lesson2\Step-05.ps1
+code -r ..\DemoFiles\ch07\Lesson2\Step-06.ps1
 
 #endregion
 
