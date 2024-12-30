@@ -55,11 +55,13 @@ throw "You're not supposed to run the entire script"
 
 #region What is VS Code
 
-# https://code.visualstudio.com/
+# https://code.visualstudio.com/docs/editor/whyvscode
 
 #endregion
 
 #region VS Code features
+
+# https://code.visualstudio.com/
 
 #endregion
 
