@@ -223,14 +223,55 @@ Get-Help Add-Content
 Get-Help Out-File
 Get-Help Export-Csv
 
+Find-Module -Command Write-Log -Repository PSGallery
+
+# https://github.com/peetrike/scripts/blob/master/src/Write-Log.ps1
+
+Find-Module PSFramework -Repository PSGallery
+
+# https://psframework.org/documentation/documents/psframework/logging.html
+Get-Help Write-PSFMessage -ShowWindow
+
+#region Set up logging to file
+$paramSetPSFLoggingProvider = @{
+    Name         = 'logfile'
+    InstanceName = 'Course PS-Dev'
+    FilePath     = Join-Path $pwd 'PsfMessage.csv'
+    Enabled      = $true
+}
+Set-PSFLoggingProvider @paramSetPSFLoggingProvider
+#endregion
+
+Write-PSFMessage 'A message to log'
+Write-PSFMessage 'A message to screen' -Level Host
+Get-PSFMessage
+
 #endregion
 
 #region Logging to Event Log
 
-# PowerShell version < 6
+    # PowerShell version < 6
 Get-Help Write-EventLog
 
 # https://learn.microsoft.com/dotnet/api/system.diagnostics.eventlog
+
+# https://peterwawa.wordpress.com/2015/02/26/powershell-ja-sndmuste-logid/
+
+#region Set up logging to Event Log
+$paramSetPSFLoggingProvider = @{
+    Name         = 'eventlog'
+    InstanceName = 'PS-Dev'
+    Enabled      = $true
+}
+Set-PSFLoggingProvider @paramSetPSFLoggingProvider
+#endregion
+
+Write-PSFMessage 'A message to Event Log'
+Write-PSFMessage 'A message to screen and Event Log' -Level Host
+Get-PSFMessage
+
+Get-WinEvent -ProviderName 'Application' -MaxEvents 5
+(Get-WinEvent -ProviderName 'Application' -MaxEvents 1).Properties
 
 #endregion
 
