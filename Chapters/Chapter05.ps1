@@ -35,6 +35,8 @@ https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practice
 
 Get-Help about_Requires -ShowWindow
 
+code -r .\requires.ps1
+
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_module_manifests
 
 #endregion
