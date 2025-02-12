@@ -72,10 +72,48 @@ foreach ( $i in 1..10 ) {
     }
 }
 
+# Use the OSC 9 progress ANSI codes
+#Requires -Version 7.2
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_ansi_terminals#psstyle
+$PSStyle.Progress.UseOSCIndicator
+
+function Show-Progress {
+    param (
+            [Parameter(Mandatory)]
+            [ValidateRange(0, 100)]
+            [int]
+        $Percent,
+            [ValidateSet('Normal', 'Warning', 'Error')]
+            [string]
+        $Level = 'Normal'
+    )
+
+    $ProgressState = switch ($Percent) {
+        0 { 3 }
+        100 { 0 }
+        default {
+            switch ($Level) { 'Normal' { 1 } 'Warning' { 4 } 'Error' { 2 } }
+        }
+    }
+
+    $string = "{0}]9;4;{1}{2}`a" -f @(
+        [char] 0x1b
+        $ProgressState
+        if (0, 3 -notcontains $ProgressState) { ';' + $Percent } else { '' }
+    )
+    write-host $string
+}
+
+Show-Progress -Percent 0
+Show-Progress -Percent 30 -Level Warning
+Show-Progress -Percent 50
+Show-Progress -Percent 67 -Level Error
+Show-Progress -Percent 100
+
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#progresspreference
 $ProgressPreference
 
-#Requires -version 7.4
+#Requires -Version 7.4
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-progressaction
 
 $url = 'https://raw.githubusercontent.com/PowerShell/PowerShell/refs/heads/master/assets/Chibi_Avatar.svg'
