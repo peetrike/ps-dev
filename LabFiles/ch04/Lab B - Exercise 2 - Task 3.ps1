@@ -112,6 +112,7 @@ function Set-Post {
         $Id,
             [string]
         $Title,
+            [Alias('Message')]
             [string]
         $Body
     )
