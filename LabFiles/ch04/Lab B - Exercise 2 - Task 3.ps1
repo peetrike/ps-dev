@@ -72,6 +72,7 @@ function New-Post {
             [string]
         $Title,
             [Parameter(Mandatory)]
+            [Alias('Message')]
             [string]
         $Body,
             [Parameter(
