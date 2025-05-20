@@ -12,3 +12,6 @@ Get-Help Get-UserLogonInfo -Examples
 
 # This shows, why we need blank line between code and comment
 (Get-Help Get-UserLogonInfo).examples.example[0] | Format-List *
+
+# You can even run examples
+Invoke-Expression (Get-Help Get-UserLogonInfo).examples.example[0].code

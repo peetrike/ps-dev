@@ -187,7 +187,7 @@ computer
 
 function computer {
     [CmdletBinding()]
-    [Alias('Computer')]
+    #[Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
@@ -210,7 +210,7 @@ function computer {
 
 function computer {
     [CmdletBinding()]
-    [Alias('Computer')]
+    #[Alias('Computer')]
     param (
             [Parameter(
                 Mandatory = $true,
@@ -253,7 +253,10 @@ function computer {
                 'fqdn',
                 'server'
             )]
-            [ValidatePattern('^SRV-', ErrorMessage = 'Must start with SRV-')]
+            [ValidatePattern(
+                '^SRV-',
+                ErrorMessage = 'Must start with SRV-'
+            )]
             [string]
         $ComputerName
     )
@@ -308,13 +311,44 @@ Get-Help Stop-Service -Parameter Name
 function names {
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline)]
-        [string]
+            [Parameter(ValueFromPipeline)]
+            [string]
         $Name
     )
 
     $Name
 }
+
+'nimi1', $env:COMPUTERNAME, $env:USERNAME | names
+
+function names {
+    [CmdletBinding()]
+    param (
+            [Parameter(ValueFromPipeline)]
+            [string]
+        $Name
+    )
+
+    $input.Count
+    $input
+}
+
+'nimi1', $env:COMPUTERNAME, $env:USERNAME | names
+
+function names {
+    [CmdletBinding()]
+    param (
+            [Parameter(ValueFromPipeline)]
+            [string]
+        $Name
+    )
+
+    process {
+        $Name
+    }
+}
+
+'nimi1', $env:COMPUTERNAME, $env:USERNAME | names
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/12%20Pipeline%20Objects.ps1
 
@@ -401,11 +435,11 @@ $os = Get-CimInstance -ClassName Win32_OperatingSystem
 $cs = Get-CimInstance -ClassName Win32_ComputerSystem
 
 $properties = @{
-    'ComputerName' = $env:COMPUTERNAME
-    'OSVersion'    = $os.Version
-    'OSBuild'      = $os.BuildNumber
-    'Manufacturer' = $cs.Manufacturer
-    'Model'        = $cs.Model
+    ComputerName = $env:COMPUTERNAME
+    OSVersion    = $os.Version
+    'OS-Build'   = $os.BuildNumber
+    Manufacturer = $cs.Manufacturer
+    Model        = $cs.Model
 }
 
 #endregion
@@ -414,6 +448,8 @@ $properties = @{
 
 $object = New-Object -TypeName PSObject -Property $properties
 Write-Output $object
+
+New-Object -TypeName PSObject -Property $properties
 
 [PSCustomObject] $properties
 
@@ -487,6 +523,8 @@ function greeting {
             hello
 
             This example uses function alias to greet the currently logged on user.
+        .LINK
+            http://www.ee
     #>
     [OutputType([string])]
     [Alias('Hello')]
@@ -586,10 +624,11 @@ Get-Item test.txt | Remove-File -Confirm
 
 function Set-Something {
     [OutputType([string])]
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
     param ()
 
-    if ($PSCmdlet.ShouldProcess('Something')) {
+    $asi = 'miski asi'
+    if ($PSCmdlet.ShouldProcess($asi, 'doing destructive things')) {
         'Setting stuff'
     }
 }

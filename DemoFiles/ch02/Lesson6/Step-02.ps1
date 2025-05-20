@@ -45,7 +45,6 @@ function Get-UserLogonInfo {
     }
 }
 
-
 # Comment-based help is most easily added INSIDE the START of the function
 # as shown here.
 
