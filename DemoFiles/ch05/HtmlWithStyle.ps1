@@ -78,7 +78,7 @@ $FileName = $MyInvocation.MyCommand.Name -replace '.ps1', '.html'
 $CssName = $FileName -replace '.html', '.css'
 $cssPath = Join-Path -Path $PSScriptRoot -ChildPath $CssName
 ConvertTo-HTML -Body $BodyFragment -Title 'Computer Information Report' -CssUri $cssPath |
-    Out-File -FilePath $FileName
+    Out-File -FilePath $FileName -Encoding utf8
 #endregion
 
 Invoke-Item -Path $FileName

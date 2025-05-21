@@ -139,10 +139,15 @@ $PSStyle.Formatting
 Get-Help Write-Host
 Get-Help Write-Host -Parameter *color
 
+write-host -ForegroundColor Yellow 'Kollane'
+
 Get-Help Write-Information
 
 #Requires -Version 7.2
 $PSStyle
+
+Write-Host $PSStyle.Italic "tere" $PSStyle.Reset $PSStyle.Foreground.Red 'appi'
+
 Get-Help about_ANSI_Terminals -ShowWindow
 Find-PSResource PSStyle -Repository PSGallery
 
@@ -337,6 +342,8 @@ Get-Help ConvertTo-Html
 
 Get-Process p* | ConvertTo-HTML | Out-File Report.html
 Invoke-Item Report.html
+
+get-help ConvertTo-Html -Parameter Fragment
 
 #endregion
 
