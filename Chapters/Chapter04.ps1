@@ -251,6 +251,12 @@ Find-Type XmlDocument
 Find-Type XmlDocument | Find-Member Load*
 Find-Type XmlDocument | Get-TypeUrl -Invoke
 
+$document = [xml] ""
+$document.Load("Demo1.xml")
+
+# don't do this
+$document = [xml] (Get-Content Demo1.xml)
+
 #endregion
 
 #region Searching for XML elements
@@ -275,6 +281,10 @@ Find-Type XmlNode | Find-Member RemoveChild
 
 Find-Type XmlDocument | Find-Member CreateAttribute
 Find-Type XmlElement | Find-Member SetAttributeNode
+
+# saving results
+$document.Save("Demo1.xml")
+$document.OuterXml | Set-Content -Path demo3.xml -Encoding utf8
 
 #endregion
 

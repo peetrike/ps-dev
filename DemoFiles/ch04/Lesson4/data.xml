@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+  <person age="21">Joann</person>
+  <person age="42">Chad</person>
+  <animal species="dog">
+    <name>Fido</name>
+    <age>4</age>
+    <breed>Cocker Spaniel</breed>
+  </animal>
+  <company name="Microsoft" />
+</entities>
