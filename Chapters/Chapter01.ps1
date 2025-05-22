@@ -28,8 +28,6 @@ throw "You're not supposed to run the entire script"
 
 # https://en.wikipedia.org/wiki/Integrated_development_environment
 
-$muutuja = 'uhhuu'
-
 #endregion
 
 #region IDE vs Editor
