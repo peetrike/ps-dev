@@ -308,6 +308,7 @@ Get-Help Stop-Service -Parameter Name
 
 # https://github.com/peetrike/Examples/blob/main/CommandLine/11%20Pipeline%20Input.ps1
 
+    # This does not work as expected
 function names {
     [CmdletBinding()]
     param (
@@ -335,6 +336,7 @@ function names {
 
 'nimi1', $env:COMPUTERNAME, $env:USERNAME | names
 
+    # now it works
 function names {
     [CmdletBinding()]
     param (
