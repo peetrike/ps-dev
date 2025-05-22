@@ -19,13 +19,13 @@ throw "You're not supposed to run the entire script"
 
 #region Understanding Tools
 
-https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-01-decide-whether-youre-coding-a-tool-or-a-controller-script
+# https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-01-decide-whether-youre-coding-a-tool-or-a-controller-script
 
 #endregion
 
 #region Understanding Controller Scripts
 
-https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-07-controllers-should-typically-output-formatted-data
+# https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Best-Practices/Building-Reusable-Tools.md#tool-07-controllers-should-typically-output-formatted-data
 
 #endregion
 
@@ -139,10 +139,21 @@ $PSStyle.Formatting
 Get-Help Write-Host
 Get-Help Write-Host -Parameter *color
 
+Write-Host -ForegroundColor Yellow 'this is yellow'
+
 Get-Help Write-Information
 
 #Requires -Version 7.2
 $PSStyle
+
+Write-Host @(
+    $PSStyle.Italic
+    'Hello'
+    $PSStyle.Reset
+    $PSStyle.Foreground.Red
+    'help'
+)
+
 Get-Help about_ANSI_Terminals -ShowWindow
 Find-PSResource PSStyle -Repository PSGallery
 
