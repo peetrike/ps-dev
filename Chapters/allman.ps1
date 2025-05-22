@@ -3,6 +3,7 @@ if ($a -eq 0)
 {
     'is 0'
 }
-else {
+else
+{
     'not 0'
 }
