@@ -77,6 +77,7 @@ foreach ( $i in 1..10 ) {
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_ansi_terminals#psstyle
 $PSStyle.Progress.UseOSCIndicator
 
+# https://learn.microsoft.com/windows/terminal/tutorials/progress-bar-sequences
 function Show-Progress {
     param (
             [Parameter(Mandatory)]
