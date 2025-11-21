@@ -87,7 +87,7 @@ throw "You're not supposed to run the entire script"
 #region Other editors
 
 # https://www.sapien.com/software/powershell_studio
-# https://ironmansoftware.com/powershell-pro-tools/#psscriptpad
+# https://docs.poshtools.com/powershell-pro-tools-documentation/psscriptpad
 # https://visualstudio.microsoft.com/vs/community/
 
 # https://www.powershellgallery.com/packages/psedit
@@ -114,13 +114,16 @@ throw "You're not supposed to run the entire script"
 # https://github.com/PowerShellOrg/Plaster/blob/master/docs/en-US/about_Plaster.help.md
 # https://psframework.org/documentation/documents/psmoduledevelopment/templates.html
 
+# https://learn.microsoft.com/dotnet/core/tools/custom-templates
+
 #endregion
 
 #region Build Automation tools
 
 # https://psake.dev/docs/intro
-# https://github.com/nightroman/Invoke-Build/wiki
+# https://github.com/nightroman/Invoke-Build/blob/main/Docs/README.md
 # https://github.com/JustinGrote/Press
+# https://github.com/gaelcolas/Sampler
 
 #endregion
 
