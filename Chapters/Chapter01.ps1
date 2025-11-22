@@ -138,6 +138,7 @@ throw "You're not supposed to run the entire script"
 # https://github.com/RamblingCookieMonster/PSDepend
 # https://github.com/Jaykul/RequiredModules
 # https://github.com/JustinGrote/ModuleFast
+# https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/about/about_psresourceget#searching-by-required-resources
 
 #endregion
 
