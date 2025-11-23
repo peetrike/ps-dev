@@ -74,7 +74,7 @@ Get-Command -Noun ModuleManifest -Module Microsoft.PowerShell.Core
 
 New-ModuleManifest -Path .\myModule.psd1 -ModuleVersion 2.0 -Author $env:USERNAME
 
-Get-Command -verb Update -Noun *ModuleManifest
+Get-Command -Verb Update -Noun *ModuleManifest
 
 # https://learn.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest#sample-module-manifest
 
@@ -123,6 +123,11 @@ Import-Module ModuleBuilder
 #endregion
 
 #region Module folder structure
+
+Get-ChildItem $PSHOME\modules\Microsoft.PowerShell.LocalAccounts
+Get-ChildItem $PSHOME\modules\Microsoft.PowerShell.LocalAccounts\1.0.0.0
+
+Get-ChildItem $PSHOME\modules\microsoft.powershell.archive
 
 #endregion
 
