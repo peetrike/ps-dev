@@ -13,9 +13,9 @@ $result.Content
 $result.Headers.'Content-Type'
 
 # Get the specific pet from the list
-$Url = 'https://petstore.swagger.io/v2/pet/1'
+$petId = (Invoke-RestMethod -Uri $Url | Get-Random).id
+$Url = 'https://petstore.swagger.io/v2/pet', $petId -join '/'
 Invoke-RestMethod -Uri $Url
-
 
 # add api key to request
 $header = @{
@@ -36,7 +36,7 @@ $Url = 'https://petstore.swagger.io/v2/store/order'
 $orderId = 101
 $body = @{
     id       = $orderId
-    petId    = 1
+    petId    = $petId
     quantity = 3
     shipDate = [datetime]::Now.AddHours(5)
     status   = 'placed'
