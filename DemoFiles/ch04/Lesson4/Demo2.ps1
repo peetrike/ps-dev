@@ -10,19 +10,19 @@ $xml.LoadXml($Response.Content)
 $xml.rss.channel.item
 $xml.SelectNodes('//item')
 
-# Find the PowerShell 7.5 RC announcement
+# Find the PowerShell team investments article
 $xml.SelectNodes('//item/title')
-$xml.SelectNodes('//item') | Where-Object title -Match '7\.5'
-$xml.SelectNodes('//item[contains(title, "7.5")]')
+$xml.SelectNodes('//item') | Where-Object title -Match 'investments'
+$xml.SelectNodes('//item[contains(title, "investments")]')
 
-# Find the creator of PowerShell 7.5 RC announcement
-$query = '//item[contains(title, "7.5")]'
+# Find the creator of PowerShell team investments article
+$query = '//item[contains(title, "investments")]'
 $xml.SelectNodes($query).creator.InnerText
 
 # find the creator using namespaces
 $xml.rss
 $manager = [Xml.XmlNamespaceManager]::new($xml.NameTable)
 $manager.AddNamespace('dc', $xml.rss.dc)
-$query = '//item[contains(title, "7.5")]/dc:creator'
+$query = '//item[contains(title, "investments")]/dc:creator'
 $xml.SelectNodes($query, $manager)
 $xml.SelectNodes($query, $manager).InnerText
