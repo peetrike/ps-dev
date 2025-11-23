@@ -526,7 +526,7 @@ function greeting {
 
             This example uses function alias to greet the currently logged on user.
         .LINK
-            http://www.ee
+            http://microsoft.com/powershell
     #>
     [OutputType([string])]
     [Alias('Hello')]
@@ -549,7 +549,7 @@ Get-Help greeting -Full
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help#externalhelp
 # https://learn.microsoft.com/powershell/scripting/developer/help/writing-help-for-windows-powershell-cmdlets
 
-Find-Module platyPS -Repository PSGallery
+Find-PSResource *platyPS -Repository PSGallery
 
 #endregion
 
