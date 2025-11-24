@@ -77,8 +77,11 @@ foreach ( $i in 1..10 ) {
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_ansi_terminals#psstyle
 $PSStyle.Progress.UseOSCIndicator
 
-# https://learn.microsoft.com/windows/terminal/tutorials/progress-bar-sequences
 function Show-Progress {
+    <#
+        .LINK
+            https://learn.microsoft.com/windows/terminal/tutorials/progress-bar-sequences
+    #>
     param (
             [Parameter(Mandatory)]
             [ValidateRange(0, 100)]
@@ -213,6 +216,12 @@ Get-ChildItem Cert:\CurrentUser\My |
     Select-Object FriendlyName, NotAfter, Subject, Thumbprint |
     Out-GridView -OutputMode Single
 
+    #Requires -Version 7
+Get-Command Out-ConsoleGridView
+Get-ChildItem Cert:\CurrentUser\My |
+    Select-Object FriendlyName, NotAfter, Subject, Thumbprint |
+    Out-ConsoleGridView -OutputMode Single
+
 #endregion
 
 #region Using Text-based User Interface
@@ -221,7 +230,7 @@ Find-PSResource Microsoft.PowerShell.ConsoleGuiTools -Repository PSGallery
 Find-PSResource Terminal.Gui -Repository Nuget
 
 $ModulePath = (Get-Module Microsoft.PowerShell.ConsoleGuiTools -ListAvailable)[0].ModuleBase
-Get-ChildItem -path $ModulePath -Filter *.dll
+Get-ChildItem -Path $ModulePath -Filter *.dll
 
 code -r .\Show-Tui2.ps1
 .\Show-Tui2.ps1
@@ -240,7 +249,10 @@ Find-PSResource AnyBox -Repository PSGallery
 
 # https://www.foxdeploy.com/series/LearningGUIs
 
-# https://ironmansoftware.com/powershell-universal-dashboard
+# https://github.com/code-numericoverflow/UIfied
+# https://fresh2.dev/r/anybox/
+
+# https://www.powershelluniversal.com
 # https://demo.powershelluniversal.com/
 
 #endregion
@@ -275,11 +287,11 @@ Get-Help Add-Content
 Get-Help Out-File
 Get-Help Export-Csv
 
-Find-Module -Command Write-Log -Repository PSGallery
+Find-PSResource -Command Write-Log -Repository PSGallery
 
 # https://github.com/peetrike/scripts/blob/master/src/Write-Log.ps1
 
-Find-Module PSFramework -Repository PSGallery
+Find-PSResource PSFramework -Repository PSGallery
 
 # https://psframework.org/documentation/documents/psframework/logging.html
 Get-Help Write-PSFMessage -ShowWindow
@@ -297,7 +309,7 @@ Set-PSFLoggingProvider @paramSetPSFLoggingProvider
 Write-PSFMessage 'A message to log'
 Write-PSFMessage 'A message to screen' -Level Host
 Get-PSFMessage
-
+Disable-PSFLoggingProvider -Name logfile -InstanceName $paramSetPSFLoggingProvider.InstanceName
 #endregion
 
 #region Logging to Event Log
@@ -318,9 +330,10 @@ $paramSetPSFLoggingProvider = @{
 Set-PSFLoggingProvider @paramSetPSFLoggingProvider
 #endregion
 
-Write-PSFMessage 'A message to Event Log'
+Write-PSFMessage 'A message to Event Log' -Type
 Write-PSFMessage 'A message to screen and Event Log' -Level Host
 Get-PSFMessage
+Disable-PSFLoggingProvider -Name eventlog -InstanceName $paramSetPSFLoggingProvider.InstanceName
 
 Get-WinEvent -ProviderName 'Application' -MaxEvents 5
 (Get-WinEvent -ProviderName 'Application' -MaxEvents 1).Properties
@@ -368,11 +381,15 @@ Find-PSResource PSWriteHtml -Repository PSGallery
 
 Find-PSResource ImportExcel -Repository PSGallery
 
+code -r .\save-excelreport.ps1
+
 #endregion
 
 #region Converting command output to PDF
 
 Find-PSResource PSWritePDF -Repository PSGallery
+
+code -r .\save-pdfreport.ps1
 
 #endregion
 
