@@ -1,4 +1,7 @@
-﻿# .link https://powershellcookbook.com/recipe/sGGT/program-add-a-console-ui-to-your-script
+﻿<#
+    .LINK
+        https://powershellcookbook.com/recipe/sGGT/program-add-a-console-ui-to-your-script
+#>
 #Requires -Version 7
 #Requires -Module Microsoft.PowerShell.ConsoleGuiTools
 using namespace Terminal.Gui
