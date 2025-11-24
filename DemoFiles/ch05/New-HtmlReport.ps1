@@ -2,7 +2,6 @@
 [CmdletBinding()]
 param ()
 
-
 #region Collect and convert information
 $OSinfo = Get-CimInstance -ClassName Win32_OperatingSystem |
     Select-Object 'Version', 'Caption', 'BuildNumber', 'Manufacturer'
