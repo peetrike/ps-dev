@@ -34,7 +34,7 @@ $ErrorActionPreference.GetType() | Get-EnumValue
 
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters#-erroraction
 
-#Requires -Version 7.3
+#Requires -Version 7.4
 # https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.4#psnativecommanduseerroractionpreference
 $PSNativeCommandUseErrorActionPreference
 
@@ -103,6 +103,11 @@ try {
 
 #region Capturing Errors
 
+code -r ..\DemoFiles\ch06\Get-Error.ps1
+. ..\DemoFiles\ch06\Get-Error.ps1
+
+Get-Error
+
 #endregion
 
 #endregion
@@ -151,7 +156,11 @@ function Get-BiosInfo {
         }
     }
 }
+
 Get-BiosInfo -NameFile somefile.txt
+Add-Content -path somefile.txt -Value 'masin'
+Get-BiosInfo -NameFile somefile.txt
+Import-Csv errorlog.csv
 
 #endregion
 
