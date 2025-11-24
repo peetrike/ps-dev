@@ -77,11 +77,14 @@ Get-Process -Id $PID | Get-Member -MemberType Methods
 $encoding = New-Object -TypeName System.Text.UTF8Encoding
     #Requires -Version 5
 $encoding = [Text.UTF8Encoding]::new()
+$encoding = [Text.Encoding]::UTF8
+
 [datetime]::new
 
 '2024.12.20' -as [datetime]
 [datetime] '2024.12.20'
 '2024.12.20' | Get-Member -MemberType Method -Name *datetime
+'2024.12.20'.ToDateTime([cultureinfo] 'en-us')
 
 '3:15' -as [timespan]
 
@@ -122,11 +125,18 @@ Get-Module -ListAvailable |
     Where-Object RequiredAssemblies |
     Select-Object -Property Name, RequiredAssemblies
 
+(Get-Service bits).psobject.TypeNames
+[System.ServiceProcess.ServiceController].Module
+
 #endregion
 
 #region Loading available .NET components
 
 Get-Help Add-Type -Parameter AssemblyName
+
+Add-Type -AssemblyName System.Windows.Forms
+Find-Type MessageBox | Get-Assembly
+Find-Type MessageBox | Get-Assembly | Select-Object FullName
 
 #endregion
 
