@@ -25,25 +25,34 @@ throw "You're not supposed to run the entire script"
 #region PowerShell specific conventions
 
     # this is not good
-Send-MailMessage -To "me@somewhere.com" -Subject "Powershell sends mail" -Priority Low -DeliveryNotificationOption Never
+Send-MailMessage -To 'me@somewhere.com' -Subject 'Powershell sends mail' -Priority Low -DeliveryNotificationOption Never
 
     # this is also bad
-Send-MailMessage -To "me@somewhere.com" `
-    -Subject "Powershell sends mail" `
+Send-MailMessage -To 'me@somewhere.com' `
+    -Subject 'Powershell sends mail' `
     -Priority Low `
     -DeliveryNotificationOption Never
 
     # this is good
-$sendMailMessageSplat = @{
-    To = "me@somewhere.com"
+$mailMessageSplat = @{
+    To = 'me@somewhere.com'
     #Subject = "Powershell sends mail"
     Priority = 'Low'
     DeliveryNotificationOption = 'Never'
 }
-Send-MailMessage @sendMailMessageSplat
+Send-MailMessage @mailMessageSplat
 
 if (! $VerbosePreference) {}
 if (-not $VerbosePreference) {}
+
+if ($false)
+{
+    'this line is never executed'
+}
+else
+{
+    'we should end up here'
+}
 
 #endregion
 
@@ -74,14 +83,13 @@ ${Name with`twhite space and `{punctuation`}} = 3
 $総計 = 'some data'
 ${☁} = 12
 
-
     # global variables
-$Script:ApiPath = 'https://api.example.com'
+$Global:ApiPath = 'https://api.example.com'
 $RequestPath = $Global:$ApiPath, 'users' -join '/'
+$Script:ModuleVariable = 14
 
     # defining constants
 New-Variable -Option Constant -Name ApiPath -Value 'https://api.example.com' -Scope Script
-
 
     # using enumerations
     #Requires -Version 5
@@ -93,7 +101,7 @@ using namespace System.Management.Automation
 
     # prefer the last notation
 $ErrorActionPreference = 1
-$ErrorActionPreference = 'stop'
+$ErrorActionPreference = 'Stop'
 $ErrorActionPreference = [Management.Automation.ActionPreference]::Stop
 
 #endregion
