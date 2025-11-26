@@ -10,7 +10,5 @@
         }
     }
     platyPS             = 'latest'
-    psake               = 'latest'
-    PSModuleDevelopment = 'latest'
     PSScriptAnalyzer    = 'latest'
 }
