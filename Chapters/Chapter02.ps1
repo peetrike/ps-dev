@@ -23,6 +23,8 @@ Get-Help about_Functions -ShowWindow
 Get-Command pause
 (Get-Command pause).Definition
 
+$myPause = { $null = Read-Host 'Press Enter to continue...' }
+& $myPause
 function greeting {
     "Hello $env:USERNAME"
 }
