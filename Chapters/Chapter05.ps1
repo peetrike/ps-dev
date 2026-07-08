@@ -105,7 +105,7 @@ function Show-Progress {
         $ProgressState
         if (0, 3 -notcontains $ProgressState) { ';' + $Percent } else { '' }
     )
-    write-host $string
+    Write-Host $string
 }
 
 Show-Progress -Percent 0
