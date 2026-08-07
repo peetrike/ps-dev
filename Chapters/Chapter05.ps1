@@ -252,8 +252,8 @@ Find-PSResource AnyBox -Repository PSGallery
 # https://github.com/code-numericoverflow/UIfied
 # https://fresh2.dev/r/anybox/
 
-# https://www.powershelluniversal.com
-# https://demo.powershelluniversal.com/
+# https://powershelluniversal.devolutions.net
+# https://showcase-psu.devolutions.net
 
 #endregion
 
