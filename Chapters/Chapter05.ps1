@@ -235,7 +235,7 @@ Get-ChildItem -Path $ModulePath -Filter *.dll
 code -r .\Show-Tui2.ps1
 .\Show-Tui2.ps1
 
-# https://gui-cs.github.io/Terminal.Gui/docs/overview.html
+# https://gui-cs.github.io/Terminal.Gui/docs/index.html
 
 #endregion
 
