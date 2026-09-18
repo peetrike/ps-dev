@@ -251,6 +251,7 @@ Find-PSResource AnyBox -Repository PSGallery
 
 # https://github.com/code-numericoverflow/UIfied
 # https://fresh2.dev/r/anybox/
+# https://github.com/mdgrs-mei/WinUIShell
 
 # https://powershelluniversal.devolutions.net
 # https://showcase-psu.devolutions.net
